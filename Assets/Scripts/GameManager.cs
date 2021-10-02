@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public enum GameState { InProgress, Loss, Victory }
+
+    public static Action OnTurnComplete;
 
     public GameState CurrentGameState = GameState.InProgress;
     public int CurrentTurn { get; set; } = 0;
@@ -20,6 +23,22 @@ public class GameManager : MonoBehaviour
     {
         Pillars = new Pillars();
         _mapManager = FindObjectOfType<MapManager>();
+
+        MapManager.OnTilePlaced += ProcessTurn;
+
+        ResetGame();
+    }
+
+    private void OnDestroy()
+    {
+        MapManager.OnTilePlaced -= ProcessTurn;
+    }
+
+    private void ResetGame()
+    {
+        Pillars.Military = (maximumPillar - minimumPillar) / 2;
+        Pillars.Economy = (maximumPillar - minimumPillar) / 2;
+        Pillars.Culture = (maximumPillar - minimumPillar) / 2;
     }
 
     private void ProcessTurn()
@@ -29,6 +48,8 @@ public class GameManager : MonoBehaviour
         CheckWinConditions();
 
         CurrentTurn++;
+
+        OnTurnComplete?.Invoke();
     }
 
     private void UpdatePillarValues()

@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
 {
+    public static Action OnTilePlaced;
+
     private static float _cellHeight = 0.7f;
     private static float _cellWidth = 1f;
     // This is how the map generation positions Cells in the scene
@@ -40,7 +43,30 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        GenerateTest();
+
+    }
+
+    // Returns an IEnumerable that contains coordinates, or Cells, or whatever else, where the player can place the currently held Tile
+    public IEnumerable FindAllValidLocations(Tile tile)
+    {
+        // Return an empty list of cells for now
+        return new List<Cell>();
+    }
+
+    // Instantiate the tile prefab on top of the cell
+    // Returns true if placed successfully, false if not
+    public bool TryPlaceTileAt(GameObject tilePrefab, Cell cell)
+    {
+        var newTile = Instantiate(tilePrefab).GetComponent<Tile>();
+
+        newTile.transform.SetParent(cell.transform);
+
+        cell.Tile = newTile;
+        Cells.Add(cell);
+
+        OnTilePlaced?.Invoke();
+
+        return true;
     }
 
     private void GenerateTest()
