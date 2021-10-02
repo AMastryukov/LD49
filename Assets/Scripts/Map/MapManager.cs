@@ -40,7 +40,7 @@ public class MapManager : MonoBehaviour
 
     private void Start()
     {
-        GenerateTest();
+        //GenerateTest();
     }
 
     private void GenerateTest()
