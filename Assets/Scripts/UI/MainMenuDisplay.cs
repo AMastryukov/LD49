@@ -47,6 +47,8 @@ public class MainMenuDisplay : MonoBehaviour
             yield return new WaitForSeconds(_delay);
         }
 
+        yield return new WaitForSeconds(1f);
+
         for (int i = 0; i < menuItems.Count; i++)
         {
             menuItems[i].transform.DOMove(_originalMenuPositions[i], 2f).SetEase(Ease.OutExpo);
