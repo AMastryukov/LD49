@@ -17,21 +17,22 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maximumPillar = 100;
     [SerializeField] private int minimumPillar = 0;
 
-    private MapManager _mapManager;
+    //private MapManager _mapManager;
+    private GridManager _gridManager;
 
     private void Awake()
     {
         Pillars = new Pillars();
-        _mapManager = FindObjectOfType<MapManager>();
+        _gridManager = FindObjectOfType<GridManager>();
 
-        MapManager.OnTilePlaced += ProcessTurn;
+        GridManager.OnTilePlaced += ProcessTurn;
 
         ResetGame();
     }
 
     private void OnDestroy()
     {
-        MapManager.OnTilePlaced -= ProcessTurn;
+        GridManager.OnTilePlaced -= ProcessTurn;
     }
 
     private void ResetGame()
@@ -56,12 +57,9 @@ public class GameManager : MonoBehaviour
     {
         Pillars deltaPillars = new Pillars();
 
-        foreach (Cell cell in _mapManager.Cells)
+        foreach (Tile tile in _gridManager.GetTiles())
         {
-            if (cell.Tile != null)
-            {
-                deltaPillars += cell.Tile.Pillars;
-            }
+            deltaPillars += tile.Pillars;
         }
 
         Pillars += deltaPillars;
