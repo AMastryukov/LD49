@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour
         Vector3.one,
     };
 
-    public List<Cell> Cells;
+    public List<Cell> Cells { get; set; }
     public Cell OriginCell
     {
         get

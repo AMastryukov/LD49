@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    public Tile Tile = null;
-    public List<Cell> Neighbors;
+    public Tile Tile { get; set; } = null;
+    public List<Cell> Neighbors { get; set; }
 
     private void Awake()
     {
