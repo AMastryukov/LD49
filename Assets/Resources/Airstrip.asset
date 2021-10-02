@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Airstrip
   m_EditorClassIdentifier: 
   Name: Airstrip
-  MilitaryInfluence: 2
-  EconomyInfluence: -2
-  CultureInfluence: 0
-  Object: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  Military: 2
+  Economy: -2
+  Culture: 0

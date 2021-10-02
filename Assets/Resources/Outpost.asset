@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Outpost
   m_EditorClassIdentifier: 
   Name: Outpost
-  MilitaryInfluence: 1
-  EconomyInfluence: -1
-  CultureInfluence: 0
-  Object: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  Military: 1
+  Economy: -1
+  Culture: 0

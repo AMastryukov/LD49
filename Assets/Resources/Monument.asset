@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Monument
   m_EditorClassIdentifier: 
   Name: Monument
-  MilitaryInfluence: -1
-  EconomyInfluence: 0
-  CultureInfluence: 1
-  Object: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  Military: -1
+  Economy: 0
+  Culture: 1

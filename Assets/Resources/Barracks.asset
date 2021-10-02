@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Barracks
   m_EditorClassIdentifier: 
   Name: Barracks
-  MilitaryInfluence: 3
-  EconomyInfluence: 3
-  CultureInfluence: 0
-  Object: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  Military: 3
+  Economy: -3
+  Culture: 0

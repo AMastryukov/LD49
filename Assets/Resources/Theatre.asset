@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Theatre
   m_EditorClassIdentifier: 
   Name: Theatre
-  MilitaryInfluence: -3
-  EconomyInfluence: 0
-  CultureInfluence: 3
-  Object: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  Military: -3
+  Economy: 0
+  Culture: 3

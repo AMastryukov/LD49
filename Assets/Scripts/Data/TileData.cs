@@ -6,7 +6,10 @@ using UnityEngine;
 public class TileData : ScriptableObject
 {
     public string Name;
-    public int MilitaryInfluence;
-    public int EconomyInfluence;
-    public int CultureInfluence;
+
+    // We can't use Pillars object because
+    // we need to have these exposed in Inspector
+    public int Military;
+    public int Economy;
+    public int Culture;
 }

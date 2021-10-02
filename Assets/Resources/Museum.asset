@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Museum
   m_EditorClassIdentifier: 
   Name: Museum
-  MilitaryInfluence: -2
-  EconomyInfluence: 0
-  CultureInfluence: 2
-  Object: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  Military: -2
+  Economy: 0
+  Culture: 2

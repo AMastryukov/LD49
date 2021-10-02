@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Farm
   m_EditorClassIdentifier: 
   Name: Farm
-  MilitaryInfluence: 0
-  EconomyInfluence: 1
-  CultureInfluence: -1
-  Object: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  Military: 0
+  Economy: 1
+  Culture: -1
