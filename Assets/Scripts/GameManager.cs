@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentGameState = GameState.InProgress;
     public int CurrentTurn { get; set; } = 0;
-    public Pillars Pillars { get; set; } = new();
+    public Pillars Pillars { get; set; }
 
     [SerializeField] private int winTurn = 25;
     [SerializeField] private int maximumPillar = 100;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Pillars = new Pillars();
         _mapManager = FindObjectOfType<MapManager>();
     }
 
