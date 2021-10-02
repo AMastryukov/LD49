@@ -9,8 +9,10 @@ public class Tile : MonoBehaviour
     public string Name => data.Name;
     public Pillars Pillars { get; set; }
 
-    private void Start()
+    public void Awake()
     {
+        Pillars = new Pillars();
+
         // A Gulag is a special case where all pillar values are random
         if (Name.Equals("Gulag"))
         {
