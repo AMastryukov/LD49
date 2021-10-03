@@ -9,11 +9,6 @@ public class Cell : MonoBehaviour
 
     private void Awake()
     {
-        Neighbors = new List<Cell>(6);
-
-        for (int i = 0; i < 6; i++)
-        {
-            Neighbors.Add(null);
-        }
+        Neighbors = new List<Cell>();
     }
 }
