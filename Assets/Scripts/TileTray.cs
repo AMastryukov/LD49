@@ -5,50 +5,27 @@ using UnityEngine;
 
 public class TileTray : MonoBehaviour
 {
-    [SerializeField]
-    private List<Transform> tilePlaceHolders;
-    [SerializeField]
-    private Transform tileSpawn;
-    [SerializeField]
-    private GameObject tilePrefab;
-    [SerializeField]
-    private Camera mainCamera;
-    [SerializeField]
-    private float returnSpeed = 1f;
+    public static Action OnSpaceOnTray;
+
+    [SerializeField] private List<Transform> tilePlaceHolders;
+    [SerializeField] private Transform tileSpawn;
+    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float returnSpeed = 1f;
 
     private int tileCapacity;
     private Tile grabbedTile;
     private List<Tile> tileTrayTiles;
-
-    public Action OnSpaceOnTray;
-
     private GridManager _gridManager;
 
     private void Awake()
     {
         _gridManager = FindObjectOfType<GridManager>();
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         tileCapacity = tilePlaceHolders.Count;
-        tileSpawn.gameObject.SetActive(false);
         tileTrayTiles = new List<Tile>();
-        foreach(Transform tile in tilePlaceHolders)
-        {
-            tile.gameObject.SetActive(false);
-        }
-
-        for (int i = 0; i < tileCapacity; i++) {
-            Tile newTile = Instantiate(tilePrefab, tileSpawn.position, Quaternion.identity, transform).GetComponent<Tile>();
-            TryAddTileToTray(newTile);
-        }
     }
 
-
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -102,18 +79,19 @@ public class TileTray : MonoBehaviour
 
     public bool TryAddTileToTray(Tile tile)
     {
-        if(!IsSpaceOnTray())
+        if (!IsSpaceOnTray())
         {
             return false;
         }
 
         tileTrayTiles.Add(tile);
+
         return true;
     }
 
     public bool TryGrabTile()
     {
-        if(grabbedTile != null)
+        if (grabbedTile != null)
         {
             return false;
         }
@@ -139,16 +117,20 @@ public class TileTray : MonoBehaviour
     {
         if (grabbedTile != null)
         {
-            if (!_gridManager.RegisterAndPlaceTile(grabbedTile)) {
+            if (!_gridManager.RegisterAndPlaceTile(grabbedTile)) 
+            {
                 return false;
             }
+
             tileTrayTiles.Remove(grabbedTile);
             grabbedTile.tileState = ETileState.Placed;
+
             OnSpaceOnTray?.Invoke();
             
             grabbedTile = null;
             return true;
         }
+
         return false;
     }
 
@@ -156,14 +138,13 @@ public class TileTray : MonoBehaviour
     {
         if (grabbedTile != null && grabbedTile.tileState == ETileState.Grabbed)
         {
-            
             grabbedTile.tileState = ETileState.Neutral;
             grabbedTile = null;
+
             return true;
         }
 
         return false;
-
     }
 
     public bool TryMoveGrabbedTile()
@@ -174,8 +155,8 @@ public class TileTray : MonoBehaviour
         }
         
         RaycastHit rayHit;
-        if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide)){
-            print("Grab");
+        if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide))
+        {
             grabbedTile.transform.position = rayHit.point;
         }
 

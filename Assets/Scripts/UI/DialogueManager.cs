@@ -10,7 +10,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Canvas dialogueCanvas;
     [SerializeField] private TextMeshProUGUI advisorName;
     [SerializeField] private TextMeshProUGUI advisorDialogue;
-    [SerializeField] private Image advisorSprite;
+    [SerializeField] private Image advisorImage;
+    [SerializeField] private Sprite[] advisorSprites;
 
     [SerializeField] private float textRenderingSpeed = 0.025f;
     private Queue<string> loadedDialogue;
@@ -50,6 +51,7 @@ public class DialogueManager : MonoBehaviour
     public void LoadNextSentence()
     {
         StopAllCoroutines();
+
         if (loadedDialogue.Count > 0)
         {
             StartCoroutine(TypeSentence(loadedDialogue.Dequeue()));
@@ -75,7 +77,7 @@ public class DialogueManager : MonoBehaviour
 
     private void SetAdvisorSprite(DialogueData.Advisor advisor)
     {
-        // TODO: Change advisorSprite by switching through Advisor enum
+        advisorImage.sprite = advisorSprites[(int)advisor];
     }
 
     private void EndDialogue()
