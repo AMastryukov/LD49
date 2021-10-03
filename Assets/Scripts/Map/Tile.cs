@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour
 
     [SerializeField] private AudioClip placedSound;
     [SerializeField] private AudioClip grabbedSound;
-    [SerializeField] public TileData data;
+    [SerializeField] private TileData data;
     
     public ETileState tileState = ETileState.Neutral;
     public string Name => data.Name;
