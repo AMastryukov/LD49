@@ -33,7 +33,7 @@ public class GameSimulator : MonoBehaviour
 
         List<Hex> spots = _gridManager.GetAllValidSpots();
 
-        _gridManager.RegisterAndPlaceTile(spots[UnityEngine.Random.Range(0, spots.Count)], randomTileInstance);
+        _gridManager.RegisterAndPlaceTile(randomTileInstance, spots[UnityEngine.Random.Range(0, spots.Count)]);
 
         
         //_mapManager.TryPlaceTileAt(randomTile, newCell);
