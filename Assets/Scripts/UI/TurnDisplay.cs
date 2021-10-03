@@ -14,11 +14,13 @@ public class TurnDisplay : MonoBehaviour
         _gameManager = FindObjectOfType<GameManager>();
 
         GameManager.OnTurnComplete += UpdateText;
+        GameManager.OnGameSetup += UpdateText;
     }
 
     private void OnDestroy()
     {
         GameManager.OnTurnComplete -= UpdateText;
+        GameManager.OnGameSetup -= UpdateText;
     }
 
     private void UpdateText()

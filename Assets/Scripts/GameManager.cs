@@ -7,10 +7,11 @@ public class GameManager : MonoBehaviour
 {
     public enum GameState { InProgress, Loss, Victory }
 
+    public static Action OnGameSetup;
     public static Action OnTurnComplete;
 
     public GameState CurrentGameState = GameState.InProgress;
-    public int CurrentTurn { get; set; } = 0;
+    public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
 
     [SerializeField] private int winTurn = 25;
@@ -27,31 +28,52 @@ public class GameManager : MonoBehaviour
         _gridManager = FindObjectOfType<GridManager>();
         _tileTray = FindObjectOfType<TileTray>();
 
-        GridManager.OnTilePlaced += ProcessTurn;
-        TileTray.OnSpaceOnTray += PopulateTileTray;
-
-        ResetGame();
+        GridManager.OnTilePlacementConfirmed += ProcessTurn;
+        TileTray.OnTilePlaced += PopulateTileTray;
     }
 
     private void OnDestroy()
     {
-        GridManager.OnTilePlaced -= ProcessTurn;
-        TileTray.OnSpaceOnTray -= PopulateTileTray;
+        GridManager.OnTilePlacementConfirmed -= ProcessTurn;
+        TileTray.OnTilePlaced -= PopulateTileTray;
     }
 
     private void Start()
     {
-        PopulateTileTray();
+        StartGame();
     }
 
-    private void ResetGame()
+    private void StartGame()
+    {
+        PlaceStartingTile();
+        PopulateTileTray();
+        ResetPillars();
+
+        OnGameSetup?.Invoke();
+    }
+
+    private void ResetPillars()
     {
         Pillars.Military = (maximumPillar - minimumPillar) / 2;
         Pillars.Economy = (maximumPillar - minimumPillar) / 2;
         Pillars.Culture = (maximumPillar - minimumPillar) / 2;
     }
 
+    private void PlaceStartingTile()
+    {
+        // We start with a random tile for now
+        var randomTilePrefab = tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)];
+        Tile newTile = Instantiate(randomTilePrefab, _tileTray.SpawnPosition, Quaternion.identity, transform).GetComponent<Tile>();
+
+        _gridManager.RegisterAndPlaceTile(newTile, new Hex(0,0), true);
+    }
+
     private void PopulateTileTray()
+    {
+        StartCoroutine(PopulateTileTrayCoroutine());
+    }
+
+    private IEnumerator PopulateTileTrayCoroutine()
     {
         while (_tileTray.IsSpaceOnTray())
         {
@@ -60,6 +82,8 @@ public class GameManager : MonoBehaviour
             Tile newTile = Instantiate(randomTilePrefab, _tileTray.SpawnPosition, Quaternion.identity, transform).GetComponent<Tile>();
 
             _tileTray.TryAddTileToTray(newTile);
+
+            yield return new WaitForSeconds(0.25f);
         }
     }
 
@@ -123,6 +147,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
             CurrentGameState = GameState.Loss;
         }
+
+        if (CurrentGameState == GameState.Loss)
+        {
+            // TODO: Disable everything and show game over screen
+        }
     }
 
     private void CheckWinConditions()
@@ -130,6 +159,8 @@ public class GameManager : MonoBehaviour
         if (CurrentTurn >= winTurn && CurrentGameState == GameState.InProgress)
         {
             CurrentGameState = GameState.Victory;
+
+            // TODO: Disable everything and show victory screen
         }
     }
 }
