@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551245421266709682}
   m_LocalRotation: {x: 0.00000044703478, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.873, z: 0}
+  m_LocalPosition: {x: 0, y: 1.12, z: 0}
   m_LocalScale: {x: 0.0057502505, y: 0.0057502505, z: 0.0057502505}
   m_Children:
   - {fileID: 3957463819156174288}
@@ -211,8 +211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdd2075c2f5c114d8e80d53cab7d0bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placedSound: {fileID: 8300000, guid: db3472169e0168a44bfce22ffd2c203c, type: 3}
-  grabbedSound: {fileID: 8300000, guid: 56ff7c92debf20040aad670611059c12, type: 3}
   data: {fileID: 0}
   tileState: 0
 --- !u!65 &1909664355101472754
@@ -341,7 +339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 14b142c1d722e604d833c835e8bdb9e5, type: 3}
       propertyPath: m_LocalScale.z
-      value: 20.289
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 14b142c1d722e604d833c835e8bdb9e5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -383,6 +381,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 14b142c1d722e604d833c835e8bdb9e5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2200b3cf6721a624faa5df9a279c13b6, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 14b142c1d722e604d833c835e8bdb9e5, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: eb7a4c425de64fa40bb76410f85b8778, type: 2}
     - target: {fileID: 919132149155446097, guid: 14b142c1d722e604d833c835e8bdb9e5, type: 3}
       propertyPath: m_Name
       value: hex_tile
