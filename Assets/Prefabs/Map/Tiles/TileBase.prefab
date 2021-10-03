@@ -211,6 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfdd2075c2f5c114d8e80d53cab7d0bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placedSound: {fileID: 8300000, guid: db3472169e0168a44bfce22ffd2c203c, type: 3}
+  grabbedSound: {fileID: 8300000, guid: 56ff7c92debf20040aad670611059c12, type: 3}
   data: {fileID: 0}
   tileState: 0
 --- !u!65 &1909664355101472754
