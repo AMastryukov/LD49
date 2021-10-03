@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TileTray : MonoBehaviour
 {
+    public static Action OnSpaceOnTray;
+
     [SerializeField] private List<Transform> tilePlaceHolders;
     [SerializeField] private Transform tileSpawn;
     [SerializeField] private GameObject tilePrefab;
@@ -14,9 +16,6 @@ public class TileTray : MonoBehaviour
     private int tileCapacity;
     private Tile grabbedTile;
     private List<Tile> tileTrayTiles;
-
-    public Action OnSpaceOnTray;
-
     private GridManager _gridManager;
 
     private void Awake()
@@ -25,15 +24,6 @@ public class TileTray : MonoBehaviour
 
         tileCapacity = tilePlaceHolders.Count;
         tileTrayTiles = new List<Tile>();
-    }
-
-    void Start()
-    {
-        for (int i = 0; i < tileCapacity; i++) 
-        {
-            Tile newTile = Instantiate(tilePrefab, tileSpawn.position, Quaternion.identity, transform).GetComponent<Tile>();
-            TryAddTileToTray(newTile);
-        }
     }
 
     void Update()
@@ -134,6 +124,7 @@ public class TileTray : MonoBehaviour
 
             tileTrayTiles.Remove(grabbedTile);
             grabbedTile.tileState = ETileState.Placed;
+
             OnSpaceOnTray?.Invoke();
             
             grabbedTile = null;
@@ -147,9 +138,9 @@ public class TileTray : MonoBehaviour
     {
         if (grabbedTile != null && grabbedTile.tileState == ETileState.Grabbed)
         {
-            
             grabbedTile.tileState = ETileState.Neutral;
             grabbedTile = null;
+
             return true;
         }
 

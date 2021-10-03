@@ -16,16 +16,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int winTurn = 25;
     [SerializeField] private int maximumPillar = 100;
     [SerializeField] private int minimumPillar = 0;
+    [SerializeField] private List<Tile> tilePrefabs;
 
-    //private MapManager _mapManager;
     private GridManager _gridManager;
+    private TileTray _tileTray;
 
     private void Awake()
     {
         Pillars = new Pillars();
         _gridManager = FindObjectOfType<GridManager>();
+        _tileTray = FindObjectOfType<TileTray>();
 
         GridManager.OnTilePlaced += ProcessTurn;
+        TileTray.OnSpaceOnTray += PopulateTileTray;
 
         ResetGame();
     }
@@ -33,6 +36,12 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         GridManager.OnTilePlaced -= ProcessTurn;
+        TileTray.OnSpaceOnTray -= PopulateTileTray;
+    }
+
+    private void Start()
+    {
+        PopulateTileTray();
     }
 
     private void ResetGame()
@@ -40,6 +49,18 @@ public class GameManager : MonoBehaviour
         Pillars.Military = (maximumPillar - minimumPillar) / 2;
         Pillars.Economy = (maximumPillar - minimumPillar) / 2;
         Pillars.Culture = (maximumPillar - minimumPillar) / 2;
+    }
+
+    private void PopulateTileTray()
+    {
+        while (_tileTray.IsSpaceOnTray())
+        {
+            var randomTilePrefab = tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)];
+
+            Tile newTile = Instantiate(randomTilePrefab, _tileTray.transform.position, Quaternion.identity, transform).GetComponent<Tile>();
+            
+            _tileTray.TryAddTileToTray(newTile);
+        }
     }
 
     private void ProcessTurn()

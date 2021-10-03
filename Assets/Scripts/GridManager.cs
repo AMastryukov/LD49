@@ -90,8 +90,8 @@ public class GridManager : MonoBehaviour
 
             EndPreview();
         }
+
         return true;
-        
     }
 
     public bool RegisterAndPlaceTile(Tile tileObject)
