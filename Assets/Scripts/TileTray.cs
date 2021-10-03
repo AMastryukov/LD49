@@ -18,6 +18,8 @@ public class TileTray : MonoBehaviour
     private List<Tile> tileTrayTiles;
     private GridManager _gridManager;
 
+    public Vector3 SpawnPosition => tileSpawn.transform.position;
+
     private void Awake()
     {
         _gridManager = FindObjectOfType<GridManager>();
@@ -84,6 +86,7 @@ public class TileTray : MonoBehaviour
             return false;
         }
 
+        tile.transform.SetParent(transform);
         tileTrayTiles.Add(tile);
 
         return true;

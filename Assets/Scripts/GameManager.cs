@@ -57,8 +57,8 @@ public class GameManager : MonoBehaviour
         {
             var randomTilePrefab = tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)];
 
-            Tile newTile = Instantiate(randomTilePrefab, _tileTray.transform.position, Quaternion.identity, transform).GetComponent<Tile>();
-            
+            Tile newTile = Instantiate(randomTilePrefab, _tileTray.SpawnPosition, Quaternion.identity, transform).GetComponent<Tile>();
+
             _tileTray.TryAddTileToTray(newTile);
         }
     }
