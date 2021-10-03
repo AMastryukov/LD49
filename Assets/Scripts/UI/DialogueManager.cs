@@ -16,12 +16,14 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float textRenderingSpeed = 0.025f;
     private Queue<string> loadedDialogue;
     private GameManager _gameManager;
+    private AudioManager _masterAudio;
 
     // TODO: REMOVE AFTER TESTING:
     public DialogueData testDialogue;
 
     private void Awake()
     {
+        _masterAudio = FindObjectOfType<AudioManager>();
         dialogueCanvas.enabled = false;
         loadedDialogue = new Queue<string>();
 
@@ -79,10 +81,18 @@ public class DialogueManager : MonoBehaviour
         // TODO: Play typewriter audio
 
         advisorDialogue.text = "";
+        int maxCounts = 3;
+        int counts = 0;
         foreach (char character in sentence.ToCharArray())
         {
+            if(counts==maxCounts)
+            {
+                _masterAudio.playAudioClip(5);
+                counts = 0;
+            }
             advisorDialogue.text += character;
             yield return new WaitForSeconds(textRenderingSpeed);
+            counts++;
         }
     }
 
