@@ -20,14 +20,12 @@ public class GameManager : MonoBehaviour
 
     private GridManager _gridManager;
     private TileTray _tileTray;
-    private AudioManager _masterAudio;
 
     private void Awake()
     {
         Pillars = new Pillars();
         _gridManager = FindObjectOfType<GridManager>();
         _tileTray = FindObjectOfType<TileTray>();
-        _masterAudio = FindObjectOfType<AudioManager>();
 
         GridManager.OnTilePlaced += ProcessTurn;
         TileTray.OnSpaceOnTray += PopulateTileTray;
@@ -90,47 +88,40 @@ public class GameManager : MonoBehaviour
 
     private void CheckLoseConditions()
     {
-        
         if (Pillars.Military <= minimumPillar)
         {
             Debug.Log("Your military was too weak and you were overthrown by the people.");
             CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
         }
 
         if (Pillars.Military >= maximumPillar)
         {
             Debug.Log("Your military was too strong and you were overthrown in a military coup.");
             CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
         }
 
         if (Pillars.Economy <= minimumPillar)
         {  
             Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
             CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
         }
 
         if (Pillars.Economy >= maximumPillar)
         {
             Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
             CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
         }
 
         if (Pillars.Culture <= minimumPillar)
         {
             Debug.Log("Your influence over your population dwindled and your state slowly dissolved.");
             CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
         }
 
         if (Pillars.Culture >= maximumPillar)
         {
             Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
             CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
         }
     }
 

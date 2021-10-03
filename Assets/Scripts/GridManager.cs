@@ -84,7 +84,6 @@ public class GridManager : MonoBehaviour
             // Add to animation queue here if needed
             tileObject.transform.position = HexToPoint(hex);
             tileObject.tileState = ETileState.Placed;
-            tileObject.PlayPlacedSound();
             gridOccupancy.Add(hex, tileObject);
 
             OnTilePlaced?.Invoke();
