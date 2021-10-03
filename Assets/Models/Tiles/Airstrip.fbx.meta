@@ -1,8 +1,11 @@
 fileFormatVersion: 2
-guid: 9c3becf81079a754c80297d6f72ebf47
+guid: fbec544060864934193e0ad39b20ded7
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -1231269521289867832
+    second: FrontWheel|FrontWheelAction
   externalObjects: {}
   materials:
     materialImportMode: 2
