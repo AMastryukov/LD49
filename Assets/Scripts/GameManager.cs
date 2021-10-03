@@ -35,12 +35,14 @@ public class GameManager : MonoBehaviour
 
     private GridManager _gridManager;
     private TileTray _tileTray;
+    private AudioManager _masterAudio;
 
     private void Awake()
     {
         Pillars = new Pillars();
         _gridManager = FindObjectOfType<GridManager>();
         _tileTray = FindObjectOfType<TileTray>();
+        _masterAudio = FindObjectOfType<AudioManager>();
 
         GridManager.OnTilePlacementConfirmed += ProcessTurn;
         TileTray.OnTilePlaced += PopulateTileTray;
@@ -128,39 +130,46 @@ public class GameManager : MonoBehaviour
 
     private void CheckLoseConditions()
     {
+        
         if (Pillars.Military <= minimumPillar)
         {
             Debug.Log("Your military was too weak and you were overthrown by the people.");
+
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Military >= maximumPillar)
         {
             Debug.Log("Your military was too strong and you were overthrown in a military coup.");
+
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy <= minimumPillar)
         {  
             Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
+
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy >= maximumPillar)
         {
             Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
+
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture <= minimumPillar)
         {
             Debug.Log("Your influence over your population dwindled and your state slowly dissolved.");
+
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture >= maximumPillar)
         {
             Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
+
             CurrentGameState = GameState.Defeat;
         }
 
@@ -168,6 +177,8 @@ public class GameManager : MonoBehaviour
         {
             _tileTray.IsEnabled = false;
             GameActive = false;
+
+            _masterAudio.gameOverSound();
 
             // TODO: Show defeat screen
         }

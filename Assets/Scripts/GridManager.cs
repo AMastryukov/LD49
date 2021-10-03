@@ -87,6 +87,7 @@ public class GridManager : MonoBehaviour
             tileObject.transform.DOMove(HexToPoint(hex), 0.35f).SetEase(Ease.InCirc);
 
             tileObject.tileState = ETileState.Placed;
+            tileObject.PlayPlacedSound();
             gridOccupancy.Add(hex, tileObject);
 
             if (!silent)
