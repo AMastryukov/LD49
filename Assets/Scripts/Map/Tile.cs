@@ -10,14 +10,19 @@ public enum ETileState
 }
 public class Tile : MonoBehaviour
 {
-    [SerializeField] private TileData data;
+    private AudioManager _masterAudio;
 
+    [SerializeField] private AudioClip placedSound;
+    [SerializeField] private AudioClip grabbedSound;
+    [SerializeField] public TileData data;
+    
     public ETileState tileState = ETileState.Neutral;
     public string Name => data.Name;
     public Pillars Pillars { get; set; }
 
     public void Awake()
     {
+        _masterAudio = FindObjectOfType<AudioManager>();
         //tileState = ETileState.Neutral;
         Pillars = new Pillars();
 
@@ -35,4 +40,14 @@ public class Tile : MonoBehaviour
         Pillars.Economy = data.Economy;
         Pillars.Culture = data.Culture;
     }
+
+    public void PlayPlacedSound()
+    {
+        _masterAudio.playAudioClip(placedSound);
+    }
+    public void PlayGrabbedSound()
+    {
+        _masterAudio.playAudioClip(grabbedSound);
+    }
+
 }
