@@ -8,6 +8,8 @@ public class TileTray : MonoBehaviour
 {
     public static Action OnTilePlaced;
 
+    public bool IsEnabled { get; set; } = false;
+
     [SerializeField] private List<Transform> tilePlaceHolders;
     [SerializeField] private Transform tileSpawn;
     [SerializeField] private GameObject tilePrefab;
@@ -79,7 +81,7 @@ public class TileTray : MonoBehaviour
 
     public bool TryGrabTile()
     {
-        if (grabbedTile != null)
+        if (!IsEnabled || grabbedTile != null)
         {
             return false;
         }
@@ -112,7 +114,7 @@ public class TileTray : MonoBehaviour
             {
                 return false;
             }
-
+             
             tileTrayTiles.Remove(grabbedTile);
             grabbedTile.tileState = ETileState.Placed;
 

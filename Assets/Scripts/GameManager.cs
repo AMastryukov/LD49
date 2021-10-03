@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { InProgress, Loss, Victory }
+    public enum GameState { InProgress, Defeat, Victory }
 
     public static Action OnGameSetup;
     public static Action OnTurnComplete;
@@ -13,6 +13,20 @@ public class GameManager : MonoBehaviour
     public GameState CurrentGameState = GameState.InProgress;
     public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
+
+    private bool _isEnabled = false;
+    public bool GameActive
+    {
+        get
+        {
+            return _isEnabled;
+        }
+        set
+        {
+            _isEnabled = value;
+            _tileTray.IsEnabled = value;
+        }
+    }
 
     [SerializeField] private int winTurn = 25;
     [SerializeField] private int maximumPillar = 100;
@@ -48,6 +62,8 @@ public class GameManager : MonoBehaviour
         PlaceStartingTile();
         PopulateTileTray();
         ResetPillars();
+
+        _tileTray.IsEnabled = true;
 
         OnGameSetup?.Invoke();
     }
@@ -115,42 +131,45 @@ public class GameManager : MonoBehaviour
         if (Pillars.Military <= minimumPillar)
         {
             Debug.Log("Your military was too weak and you were overthrown by the people.");
-            CurrentGameState = GameState.Loss;
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Military >= maximumPillar)
         {
             Debug.Log("Your military was too strong and you were overthrown in a military coup.");
-            CurrentGameState = GameState.Loss;
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy <= minimumPillar)
         {  
             Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
-            CurrentGameState = GameState.Loss;
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy >= maximumPillar)
         {
             Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
-            CurrentGameState = GameState.Loss;
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture <= minimumPillar)
         {
             Debug.Log("Your influence over your population dwindled and your state slowly dissolved.");
-            CurrentGameState = GameState.Loss;
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture >= maximumPillar)
         {
             Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
-            CurrentGameState = GameState.Loss;
+            CurrentGameState = GameState.Defeat;
         }
 
-        if (CurrentGameState == GameState.Loss)
+        if (CurrentGameState == GameState.Defeat)
         {
-            // TODO: Disable everything and show game over screen
+            _tileTray.IsEnabled = false;
+            GameActive = false;
+
+            // TODO: Show defeat screen
         }
     }
 
@@ -159,8 +178,9 @@ public class GameManager : MonoBehaviour
         if (CurrentTurn >= winTurn && CurrentGameState == GameState.InProgress)
         {
             CurrentGameState = GameState.Victory;
+            GameActive = false;
 
-            // TODO: Disable everything and show victory screen
+            // TODO: Show victory screen
         }
     }
 }

@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
 
     [SerializeField] private float textRenderingSpeed = 0.025f;
     private Queue<string> loadedDialogue;
+    private GameManager _gameManager;
 
     // TODO: REMOVE AFTER TESTING:
     public DialogueData testDialogue;
@@ -23,11 +24,19 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueCanvas.enabled = false;
         loadedDialogue = new Queue<string>();
+
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Start()
     {
-        // TODO: REMOVE AFTER TESTING
+        StartCoroutine(ShowTestDialogue());
+    }
+
+    private IEnumerator ShowTestDialogue()
+    {
+        yield return new WaitForSeconds(1f);
+
         LoadDialogue(testDialogue);
     }
 
@@ -46,6 +55,8 @@ public class DialogueManager : MonoBehaviour
         SetAdvisorSprite(dialogue.advisor);
         dialogueCanvas.enabled = true;
         LoadNextSentence();
+
+        _gameManager.GameActive = false;
     }
 
     public void LoadNextSentence()
@@ -85,5 +96,7 @@ public class DialogueManager : MonoBehaviour
         StopAllCoroutines();
         loadedDialogue.Clear();
         dialogueCanvas.enabled = false;
+
+        _gameManager.GameActive = true;
     }
 }
