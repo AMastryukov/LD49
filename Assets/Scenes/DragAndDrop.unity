@@ -539,6 +539,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4791237569306228924, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: cameraMaxX
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791237569306228924, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: cameraMinX
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791237569306228924, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: cameraSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791237569306228924, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: moveCameraOnClick
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5311589588228772307, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
       value: 0
