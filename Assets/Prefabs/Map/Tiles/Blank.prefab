@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: b8bbb24b05c3b884789de70d164ef029, type: 2}
     - target: {fileID: 3161834557906141626, guid: 71f08c321628d3248a19c9ffeef113e5, type: 3}
       propertyPath: m_Name
-      value: Gulag
+      value: Blank
       objectReference: {fileID: 0}
     - target: {fileID: 3161834557906141629, guid: 71f08c321628d3248a19c9ffeef113e5, type: 3}
       propertyPath: m_RootOrder
@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3202633927706465921, guid: 71f08c321628d3248a19c9ffeef113e5, type: 3}
       propertyPath: m_text
-      value: GULAG
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71f08c321628d3248a19c9ffeef113e5, type: 3}

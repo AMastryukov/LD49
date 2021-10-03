@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7488c14610bfd5459daa0bb7a4877e7, type: 3}
-  m_Name: Gulag
+  m_Name: Blank
   m_EditorClassIdentifier: 
-  Name: Gulag
-  MilitaryInfluence: 0
-  EconomyInfluence: 0
-  CultureInfluence: 0
+  Name: 
+  Military: 0
+  Economy: 0
+  Culture: 0

@@ -8,6 +8,7 @@ public enum ETileState
     Grabbed,
     Placed
 }
+
 public class Tile : MonoBehaviour
 {
     private AudioManager _masterAudio;
@@ -26,7 +27,7 @@ public class Tile : MonoBehaviour
         Pillars = new Pillars();
 
         // A Gulag is a special case where all pillar values are random
-        if (Name.Equals("Gulag"))
+        if (string.IsNullOrEmpty(Name))
         {
             Pillars.Military = Random.Range(-3, 4);
             Pillars.Economy = Random.Range(-3, 4);
