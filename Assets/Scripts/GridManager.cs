@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // Really cool article here: https://www.redblobgames.com/grids/hexagons/#pixel-to-hex
-
 
 /// <summary>
 /// These are Hexagonal Axial coordinated.
@@ -28,23 +26,17 @@ public struct Hex
 /// </summary>
 public class GridManager : MonoBehaviour
 {
-    [SerializeField]
-    private Camera mainCamera;
-    [SerializeField]
-    private GameObject grid;
-    [SerializeField]
-    private float gridSpacing = 1.5f;
-    [SerializeField]
-    private float snapRange = 8f;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private float gridSpacing = 1.5f;
+    [SerializeField] private float snapRange = 8f;
 
     private Dictionary<Hex, Tile> gridOccupancy;
 
     public static Action OnTilePlaced;
 
-    [SerializeField]
-    private GameObject previewTilePrefab;
-    private GameObject previewTile;
+    [SerializeField] private GameObject previewTilePrefab;
 
+    private GameObject previewTile;
 
     /// <summary>
     /// Getall the tile that have been placed on the grid.
@@ -60,48 +52,6 @@ public class GridManager : MonoBehaviour
     {
         gridOccupancy = new Dictionary<Hex, Tile>();
     }
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    return;
-    //    RaycastHit rayHit;
-    //    if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, ~grid.layer, QueryTriggerInteraction.Collide)
-    //        && rayHit.transform.tag == grid.tag)
-    //    {
-    //        //print("Hit");
-    //        //Debug.DrawRay(mainCamera.transform.position, mainCamera.transform.forward * rayHit.distance, Color.green);
-    //        if (previewTile == null)
-    //        {
-    //            previewTile = Instantiate(hexTile, rayHit.point, Quaternion.identity, transform);
-    //        }
-    //        else
-    //        {
-    //            Hex hex = ClosestValidHex(rayHit.point);
-    //            previewTile.transform.position = HexToPoint(hex);
-    //            if (Input.GetMouseButtonDown(0))
-    //            {
-    //                //RegisterAndPlaceTile(hex);
-    //                previewTile = null;
-    //            }
-    //        }
-    //    }
-    //    else
-    //    {
-    //        //print("NoHit");
-    //        Destroy(previewTile);
-    //        previewTile = null;
-    //    }
-
-        
-    //    //print(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-
-    //}
 
     public Vector3 HexToPoint(Hex hex)
     {
@@ -122,7 +72,6 @@ public class GridManager : MonoBehaviour
     /// <param name="hex">hexagonal coordinate</param>
     public bool RegisterAndPlaceTile(Tile tileObject, Hex hex)
     {
-
         if (gridOccupancy.ContainsKey(hex))
         {
             Debug.LogError("A tile already exists here");
@@ -131,11 +80,14 @@ public class GridManager : MonoBehaviour
         else
         {
             tileObject.transform.SetParent(transform, true);
+
             // Add to animation queue here if needed
             tileObject.transform.position = HexToPoint(hex);
             tileObject.tileState = ETileState.Placed;
             gridOccupancy.Add(hex, tileObject);
+
             OnTilePlaced?.Invoke();
+
             EndPreview();
         }
         return true;
@@ -144,7 +96,7 @@ public class GridManager : MonoBehaviour
 
     public bool RegisterAndPlaceTile(Tile tileObject)
     {
-        if(previewTile != null)
+        if (previewTile != null)
         {
             return RegisterAndPlaceTile(tileObject, ClosestValidHex(previewTile.transform.position));
         }
@@ -175,17 +127,21 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="tile"></param>
     /// <returns></returns>
-    public List<Tile> GetNeighbors(Hex hex) { 
+    public List<Tile> GetNeighbors(Hex hex) 
+    {
         List<Hex> neighbors = GetNeighborsHex(hex);
         List<Tile> neighborTiles = new List<Tile>();
 
         Tile neighborTile;
-        foreach(Hex nex in neighbors)
+
+        foreach (Hex nex in neighbors)
         {
-            if(gridOccupancy.TryGetValue(nex, out neighborTile)){
+            if (gridOccupancy.TryGetValue(nex, out neighborTile))
+            {
                 neighborTiles.Add(neighborTile);
             }
         }
+
         return neighborTiles;
     }
 
@@ -195,7 +151,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="tile"></param>
     /// <returns></returns>
-public List<Tile> GetNeighbors(Tile tile)
+    public List<Tile> GetNeighbors(Tile tile)
     {
         Hex hex = GetHexCoordinates(tile);
         return GetNeighbors(hex);
@@ -208,9 +164,9 @@ public List<Tile> GetNeighbors(Tile tile)
     /// <returns></returns>
     public Hex GetHexCoordinates(Tile tile)
     {
-        foreach(Hex key in gridOccupancy.Keys)
+        foreach (Hex key in gridOccupancy.Keys)
         {
-            if(gridOccupancy[key] = tile)
+            if (gridOccupancy[key] = tile)
             {
                 return key;
             }
@@ -228,6 +184,7 @@ public List<Tile> GetNeighbors(Tile tile)
     {
         return gridOccupancy.ContainsKey(hex);
     }
+
     /// <summary>
     /// Check if this hex spot on the grid does not contain a tile
     /// </summary>
@@ -245,7 +202,6 @@ public List<Tile> GetNeighbors(Tile tile)
     /// <returns></returns>
     public List<Hex> GetAllValidSpots()
     {
-
         // This data structure is weird please ignore
         Dictionary<Hex, Hex> validSpots = new Dictionary<Hex, Hex>();
 
@@ -283,9 +239,11 @@ public List<Tile> GetNeighbors(Tile tile)
     {
         float dist = Mathf.Infinity;
         Hex closest = new Hex(0, 0);
-        foreach(Hex hex in gridOccupancy.Keys)
+
+        foreach (Hex hex in gridOccupancy.Keys)
         {
             float new_dist = Vector3.Distance(point, HexToPoint(hex));
+
             if ( new_dist < dist)
             {
                 dist = new_dist;
@@ -306,11 +264,13 @@ public List<Tile> GetNeighbors(Tile tile)
     {
         float dist = Mathf.Infinity;
         Hex closest = new Hex(0, 0);
+
         foreach (Hex hex in GetAllValidSpots())
         {
             if (!isEmptySpot(hex)) continue;
 
             float new_dist = Vector3.Distance(point, HexToPoint(hex));
+            
             if (new_dist < dist)
             {
                 dist = new_dist;
@@ -324,10 +284,11 @@ public List<Tile> GetNeighbors(Tile tile)
     public void PreviewTile()
     {
         RaycastHit rayHit;
+        
         if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide))
         {
-
             Debug.DrawRay(mainCamera.transform.position, mainCamera.transform.forward * rayHit.distance, Color.green);
+
             if (previewTile == null)
             {
                 previewTile = Instantiate(previewTilePrefab, rayHit.point, Quaternion.identity, transform);
@@ -335,7 +296,8 @@ public List<Tile> GetNeighbors(Tile tile)
             
             Hex hex = ClosestValidHex(rayHit.point);
             Vector3 newPos = HexToPoint(hex);
-            if(Vector3.Distance(rayHit.point, newPos) < snapRange)
+
+            if (Vector3.Distance(rayHit.point, newPos) < snapRange)
             {
                 previewTile.transform.position = newPos;
             }
@@ -343,24 +305,19 @@ public List<Tile> GetNeighbors(Tile tile)
             {
                 EndPreview();
             }
-                
-            
-            
         }
         else
         {
-
             EndPreview();
         }
     }
 
     public void EndPreview()
     {
-        if(previewTile != null)
+        if (previewTile != null)
         {
             Destroy(previewTile);
             previewTile = null;
         }
-        
     }
 }

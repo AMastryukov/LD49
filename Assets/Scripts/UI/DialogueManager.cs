@@ -51,6 +51,7 @@ public class DialogueManager : MonoBehaviour
     public void LoadNextSentence()
     {
         StopAllCoroutines();
+
         if (loadedDialogue.Count > 0)
         {
             StartCoroutine(TypeSentence(loadedDialogue.Dequeue()));
