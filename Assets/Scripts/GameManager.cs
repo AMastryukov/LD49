@@ -5,13 +5,28 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { InProgress, Loss, Victory }
+    public enum GameState { InProgress, Defeat, Victory }
 
+    public static Action OnGameSetup;
     public static Action OnTurnComplete;
 
     public GameState CurrentGameState = GameState.InProgress;
-    public int CurrentTurn { get; set; } = 0;
+    public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
+
+    private bool _isEnabled = false;
+    public bool GameActive
+    {
+        get
+        {
+            return _isEnabled;
+        }
+        set
+        {
+            _isEnabled = value;
+            _tileTray.IsEnabled = value;
+        }
+    }
 
     [SerializeField] private int winTurn = 25;
     [SerializeField] private int maximumPillar = 100;
@@ -29,39 +44,64 @@ public class GameManager : MonoBehaviour
         _tileTray = FindObjectOfType<TileTray>();
         _masterAudio = FindObjectOfType<AudioManager>();
 
-        GridManager.OnTilePlaced += ProcessTurn;
-        TileTray.OnSpaceOnTray += PopulateTileTray;
-
-        ResetGame();
+        GridManager.OnTilePlacementConfirmed += ProcessTurn;
+        TileTray.OnTilePlaced += PopulateTileTray;
     }
 
     private void OnDestroy()
     {
-        GridManager.OnTilePlaced -= ProcessTurn;
-        TileTray.OnSpaceOnTray -= PopulateTileTray;
+        GridManager.OnTilePlacementConfirmed -= ProcessTurn;
+        TileTray.OnTilePlaced -= PopulateTileTray;
     }
 
     private void Start()
     {
-        PopulateTileTray();
+        StartGame();
     }
 
-    private void ResetGame()
+    private void StartGame()
+    {
+        PlaceStartingTile();
+        PopulateTileTray();
+        ResetPillars();
+
+        _tileTray.IsEnabled = true;
+
+        OnGameSetup?.Invoke();
+    }
+
+    private void ResetPillars()
     {
         Pillars.Military = (maximumPillar - minimumPillar) / 2;
         Pillars.Economy = (maximumPillar - minimumPillar) / 2;
         Pillars.Culture = (maximumPillar - minimumPillar) / 2;
     }
 
+    private void PlaceStartingTile()
+    {
+        // We start with a random tile for now
+        var randomTilePrefab = tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)];
+        Tile newTile = Instantiate(randomTilePrefab, _tileTray.SpawnPosition, Quaternion.identity, transform).GetComponent<Tile>();
+
+        _gridManager.RegisterAndPlaceTile(newTile, new Hex(0,0), true);
+    }
+
     private void PopulateTileTray()
+    {
+        StartCoroutine(PopulateTileTrayCoroutine());
+    }
+
+    private IEnumerator PopulateTileTrayCoroutine()
     {
         while (_tileTray.IsSpaceOnTray())
         {
             var randomTilePrefab = tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)];
 
-            Tile newTile = Instantiate(randomTilePrefab, _tileTray.transform.position, Quaternion.identity, transform).GetComponent<Tile>();
-            
+            Tile newTile = Instantiate(randomTilePrefab, _tileTray.SpawnPosition, Quaternion.identity, transform).GetComponent<Tile>();
+
             _tileTray.TryAddTileToTray(newTile);
+
+            yield return new WaitForSeconds(0.25f);
         }
     }
 
@@ -94,43 +134,53 @@ public class GameManager : MonoBehaviour
         if (Pillars.Military <= minimumPillar)
         {
             Debug.Log("Your military was too weak and you were overthrown by the people.");
-            CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
+
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Military >= maximumPillar)
         {
             Debug.Log("Your military was too strong and you were overthrown in a military coup.");
-            CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
+
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy <= minimumPillar)
         {  
             Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
-            CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
+
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy >= maximumPillar)
         {
             Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
-            CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
+
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture <= minimumPillar)
         {
             Debug.Log("Your influence over your population dwindled and your state slowly dissolved.");
-            CurrentGameState = GameState.Loss;
-            _masterAudio.gameOverSound();
+
+            CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture >= maximumPillar)
         {
             Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
-            CurrentGameState = GameState.Loss;
+
+            CurrentGameState = GameState.Defeat;
+        }
+
+        if (CurrentGameState == GameState.Defeat)
+        {
+            _tileTray.IsEnabled = false;
+            GameActive = false;
+
             _masterAudio.gameOverSound();
+
+            // TODO: Show defeat screen
         }
     }
 
@@ -139,6 +189,9 @@ public class GameManager : MonoBehaviour
         if (CurrentTurn >= winTurn && CurrentGameState == GameState.InProgress)
         {
             CurrentGameState = GameState.Victory;
+            GameActive = false;
+
+            // TODO: Show victory screen
         }
     }
 }

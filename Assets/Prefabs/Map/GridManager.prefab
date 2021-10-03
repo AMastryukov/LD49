@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9168041358610037948}
   - component: {fileID: 9168041358610037949}
   - component: {fileID: 9168041358610037946}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Grid
   m_Icon: {fileID: 0}
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9168041358610037944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 9168041359103047620}
   m_RootOrder: 0
@@ -142,10 +142,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  grid: {fileID: 9168041358610037944}
   gridSpacing: 1.7
-  snapRange: 5
-  previewTilePrefab: {fileID: 8664118289914058096, guid: f71338c3347b1bc42a73d29574fa9b3e, type: 3}
+  snapRange: 1
+  previewTilePrefab: {fileID: 7422396117808681851, guid: be367e882456fe54bb6e6bd44b75e811, type: 3}
 --- !u!65 &6752609992955977822
 BoxCollider:
   m_ObjectHideFlags: 0

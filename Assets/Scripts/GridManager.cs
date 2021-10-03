@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 // Really cool article here: https://www.redblobgames.com/grids/hexagons/#pixel-to-hex
 
@@ -26,13 +27,13 @@ public struct Hex
 /// </summary>
 public class GridManager : MonoBehaviour
 {
+    public static Action OnTilePlacementConfirmed;
+
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float gridSpacing = 1.5f;
     [SerializeField] private float snapRange = 8f;
 
     private Dictionary<Hex, Tile> gridOccupancy;
-
-    public static Action OnTilePlaced;
 
     [SerializeField] private GameObject previewTilePrefab;
 
@@ -70,7 +71,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     /// <param name="tileObject">tile to place on the grid</param>
     /// <param name="hex">hexagonal coordinate</param>
-    public bool RegisterAndPlaceTile(Tile tileObject, Hex hex)
+    public bool RegisterAndPlaceTile(Tile tileObject, Hex hex, bool silent = false)
     {
         if (gridOccupancy.ContainsKey(hex))
         {
@@ -82,12 +83,17 @@ public class GridManager : MonoBehaviour
             tileObject.transform.SetParent(transform, true);
 
             // Add to animation queue here if needed
-            tileObject.transform.position = HexToPoint(hex);
+            tileObject.transform.position = HexToPoint(hex) + Vector3.up * 0.5f;
+            tileObject.transform.DOMove(HexToPoint(hex), 0.35f).SetEase(Ease.InCirc);
+
             tileObject.tileState = ETileState.Placed;
             tileObject.PlayPlacedSound();
             gridOccupancy.Add(hex, tileObject);
 
-            OnTilePlaced?.Invoke();
+            if (!silent)
+            {
+                OnTilePlacementConfirmed?.Invoke();
+            }
 
             EndPreview();
         }

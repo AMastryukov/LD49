@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class TileTray : MonoBehaviour
 {
-    public static Action OnSpaceOnTray;
+    public static Action OnTilePlaced;
+
+    public bool IsEnabled { get; set; } = false;
 
     [SerializeField] private List<Transform> tilePlaceHolders;
     [SerializeField] private Transform tileSpawn;
@@ -17,6 +20,8 @@ public class TileTray : MonoBehaviour
     private Tile grabbedTile;
     private List<Tile> tileTrayTiles;
     private GridManager _gridManager;
+
+    public Vector3 SpawnPosition => tileSpawn.transform.position;
 
     private void Awake()
     {
@@ -50,26 +55,6 @@ public class TileTray : MonoBehaviour
                 _gridManager.PreviewTile();
             }
         }
-
-        // Move neutral tiles back to the tray
-        for (int i = 0; i < tileTrayTiles.Count; i++)
-        {
-            Tile tile = tileTrayTiles[i];
-            if(tile == grabbedTile)
-            {
-                // Don't reset this tile
-                continue;
-            }
-
-            Vector3 pos = tilePlaceHolders[i].position;
-
-            // Only if the tile is far
-            if(Vector3.Distance(tile.transform.position, pos) > 0.01)
-            {
-                tile.transform.position = Vector3.Lerp(tile.transform.position, pos, returnSpeed * Time.deltaTime);
-            }
-            
-        }
     }
 
     public bool IsSpaceOnTray()
@@ -84,14 +69,19 @@ public class TileTray : MonoBehaviour
             return false;
         }
 
+        tile.transform.SetParent(transform);
+        tile.transform.localScale = Vector3.one * 0.75f;
+
         tileTrayTiles.Add(tile);
+
+        UpdateTilePositions();
 
         return true;
     }
 
     public bool TryGrabTile()
     {
-        if (grabbedTile != null)
+        if (!IsEnabled || grabbedTile != null)
         {
             return false;
         }
@@ -105,11 +95,14 @@ public class TileTray : MonoBehaviour
             {
                 return false;
             }
-            
+
             grabbedTile = hitTile;
             hitTile.tileState = ETileState.Grabbed;
             hitTile.PlayGrabbedSound();
         }
+
+        grabbedTile?.transform.DOKill();
+        grabbedTile?.transform.DOScale(Vector3.one * 1f, 0.25f).SetEase(Ease.OutQuad);
 
         return true;
     }
@@ -122,11 +115,11 @@ public class TileTray : MonoBehaviour
             {
                 return false;
             }
-
+             
             tileTrayTiles.Remove(grabbedTile);
             grabbedTile.tileState = ETileState.Placed;
 
-            OnSpaceOnTray?.Invoke();
+            OnTilePlaced?.Invoke();
             
             grabbedTile = null;
             return true;
@@ -139,8 +132,12 @@ public class TileTray : MonoBehaviour
     {
         if (grabbedTile != null && grabbedTile.tileState == ETileState.Grabbed)
         {
+            grabbedTile.transform.DOScale(Vector3.one * 0.75f, 0.25f).SetEase(Ease.OutQuad);
+
             grabbedTile.tileState = ETileState.Neutral;
             grabbedTile = null;
+
+            UpdateTilePositions(0.5f);
 
             return true;
         }
@@ -162,6 +159,14 @@ public class TileTray : MonoBehaviour
         }
 
         return true;
+    }
+
+    private void UpdateTilePositions(float speed = 1f, Ease ease = Ease.OutQuad)
+    {
+        for (int i = 0; i < tileTrayTiles.Count; i++)
+        {
+            tileTrayTiles[i].transform.DOLocalMove(tilePlaceHolders[i].localPosition, speed).SetEase(ease);
+        }
     }
 }
 

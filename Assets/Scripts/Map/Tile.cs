@@ -23,7 +23,6 @@ public class Tile : MonoBehaviour
     public void Awake()
     {
         _masterAudio = FindObjectOfType<AudioManager>();
-        //tileState = ETileState.Neutral;
         Pillars = new Pillars();
 
         // A Gulag is a special case where all pillar values are random
@@ -45,9 +44,9 @@ public class Tile : MonoBehaviour
     {
         _masterAudio.playAudioClip(placedSound);
     }
+
     public void PlayGrabbedSound()
     {
         _masterAudio.playAudioClip(grabbedSound);
     }
-
 }

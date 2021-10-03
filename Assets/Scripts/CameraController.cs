@@ -17,8 +17,6 @@ public class CameraController : MonoBehaviour
     private Vector3 _initialPos;
     private float _clickCameraSpeed;
 
-
-
     private void Start()
     {
         _clickCameraSpeed = cameraSpeed / 5;
@@ -26,7 +24,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if(!moveCameraOnClick)
+        if (!moveCameraOnClick)
         {
             CameraMove();
         }
@@ -37,7 +35,6 @@ public class CameraController : MonoBehaviour
 
         CameraKeyMovement();
 
-        
         //Ensures that the camera stays within the defined bounds
         MaintainCameraBoundaries();
     }
@@ -83,24 +80,30 @@ public class CameraController : MonoBehaviour
     {
         Vector3 move = new Vector3(0, 0, 0);
         Vector3 pos = transform.position;
+
         if (Input.GetKey("w"))
         {
             move.z+= cameraSpeed * Time.deltaTime;
         }
+
         if (Input.GetKey("s"))
         {
             move.z -= cameraSpeed * Time.deltaTime;
         }
+
         if (Input.GetKey("d"))
         {
             move.x += cameraSpeed * Time.deltaTime;
         }
+
         if (Input.GetKey("a"))
         {
             move.x -= cameraSpeed * Time.deltaTime;
         }
+
         move = move.normalized * Time.deltaTime * cameraSpeed;
         pos += move;
+
         transform.position = Vector3.Lerp(transform.position, pos, cameraSpeed);
     }
 
@@ -134,7 +137,5 @@ public class CameraController : MonoBehaviour
         {
             _initialPos = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 8.16f));
         }
-       
-
     }
 }
