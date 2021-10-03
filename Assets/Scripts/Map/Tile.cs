@@ -2,15 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ETileState
+{
+    Neutral,
+    Grabbed,
+    Placed
+}
 public class Tile : MonoBehaviour
 {
     [SerializeField] private TileData data;
 
+    public ETileState tileState = ETileState.Neutral;
     public string Name => data.Name;
     public Pillars Pillars { get; set; }
 
     public void Awake()
     {
+        //tileState = ETileState.Neutral;
         Pillars = new Pillars();
 
         // A Gulag is a special case where all pillar values are random
