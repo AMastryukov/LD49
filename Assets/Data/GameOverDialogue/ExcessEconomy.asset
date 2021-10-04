@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: ExcessEconomy
   m_EditorClassIdentifier: 
   sentences:
-  - Your planned economy collapsed due to an overabundance of supply.
+  - 'Your planned economy collapsed due to an overabundance of supply. Your population
+    turned to Capitalism and you were voted out in the first democratic elections.
+
+
+    (Your
+    Economy was too high)'
   advisor: 1

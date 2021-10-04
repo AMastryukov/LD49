@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: LowEconomy
   m_EditorClassIdentifier: 
   sentences:
-  - Your failed to maintain a minimum economic supply and your population starved.
+  - 'Your failed to meet the production quotas and your population starved, leading
+    to an uprising that would result in your death.
+
+
+    (Your Economy was too low)'
   advisor: 1

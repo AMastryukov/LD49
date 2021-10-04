@@ -13,6 +13,13 @@ MonoBehaviour:
   m_Name: ExcessCulture
   m_EditorClassIdentifier: 
   sentences:
-  - Your grip on the population became too tight and rebel groups staged a coup.
-    Long live the resistance!
+  - 'Your grip on the population became too tight and rebel groups staged a coup.
+    You were captured and sentenced to 164 years of hard labor in one of the gulags.
+
+
+    Long
+    live The Resistance!
+
+
+    (Your Culture was too high)'
   advisor: 2

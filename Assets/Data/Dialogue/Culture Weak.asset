@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Culture Weak
   m_EditorClassIdentifier: 
   sentences:
-  - Your statues are being toppled all over the country! Make haste and improve our
-    cultural identity.
+  - 'Great Leader, we have seen a rise in violent tribal warlords that care not for
+    our cultural identity. We should consider producing more Culture to combat this.
+
+
+    (Your
+    Culture is becoming too weak)'
   advisor: 2

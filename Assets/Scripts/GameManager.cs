@@ -178,16 +178,17 @@ public class GameManager : MonoBehaviour
 
     private void CheckAdvisors()
     {
-        if(Pillars.Military < maximumPillar * criticalThreshold && !militaryWeakPlayed)
+        if (Pillars.Military < maximumPillar * criticalThreshold && !militaryWeakPlayed)
         {
             _dialogueManager.LoadDialogue(MilitaryWeak);
             militaryWeakPlayed = true;
         }
-        else if(Pillars.Military > maximumPillar * (1 - criticalThreshold) && !militaryStrongPlayed)
+        else if (Pillars.Military > maximumPillar * (1 - criticalThreshold) && !militaryStrongPlayed)
         {
             _dialogueManager.LoadDialogue(MilitaryStrong);
             militaryStrongPlayed = true;
-        }else if(Pillars.Culture < maximumPillar * criticalThreshold && !cultureWeakPlayed)
+        }
+        else if (Pillars.Culture < maximumPillar * criticalThreshold && !cultureWeakPlayed)
         {
             _dialogueManager.LoadDialogue(CultureWeak);
             cultureWeakPlayed = true;

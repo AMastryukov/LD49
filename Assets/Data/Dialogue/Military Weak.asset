@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Military Weak
   m_EditorClassIdentifier: 
   sentences:
-  - Our borders are being enroached by enemy nations, my soldiers are showing up
-    drunk, and I've run out of ammo. Sire, our military needs dire attention!
+  - 'Our borders are being enroached by enemy nations, my soldiers are showing up
+    drunk, and I''ve run out of ammo. Our military needs dire attention!
+
+
+    (Your
+    Military is becoming too weak)'
   advisor: 0
