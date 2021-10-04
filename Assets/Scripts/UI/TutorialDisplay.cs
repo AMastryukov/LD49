@@ -34,6 +34,9 @@ public class TutorialDisplay : MonoBehaviour
     public void OpenTutorial()
     {
         canvas.enabled = true;
+
+        currentPage = 0;
+
         HideAllPages();
 
         tutorialPages[currentPage].enabled = true;
