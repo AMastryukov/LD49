@@ -166,8 +166,11 @@ public class GridManager : MonoBehaviour
 
     public void ReplaceTile(Tile tile, Tile replacement)
     {
-        replacement.transform.position = tile.transform.position;
+        Vector3 initialDisplacement = Vector3.down;
+        replacement.transform.position = tile.transform.position + initialDisplacement;
         replacement.transform.rotation = tile.transform.rotation;
+
+        replacement.transform.DOMove(tile.transform.position, 2);
 
         var hex = GetHexCoordinates(tile);
 
@@ -182,8 +185,8 @@ public class GridManager : MonoBehaviour
         gridOccupancy.Remove(GetHexCoordinates(tile));
         
         
-        tile.transform.DOShakePosition(5, 0.03f * new Vector3(1, 0, 1), 100);
-        tile.transform.DOMoveY(-1, 5).OnComplete(() =>
+        tile.transform.DOShakePosition(10, 0.03f * new Vector3(1, 0, 1), 100);
+        tile.transform.DOMoveY(-2, 10).OnComplete(() =>
         {
             
 
