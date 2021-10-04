@@ -39,6 +39,7 @@ public class GridManager : MonoBehaviour
     private List<Tile> tilePrefabs;
     //private Dictionary<Hex, string> gridRestrictions;
 
+    [SerializeField] private GameObject emptyTilePrefab;
     [SerializeField] private GameObject previewTilePrefab;
     [SerializeField] private GameObject restrictedTilePrefab;
 
@@ -125,7 +126,7 @@ public class GridManager : MonoBehaviour
         {
             foreach (Hex spot in GetAllValidSpots())
             {
-                GameObject newHex = Instantiate(previewTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
+                GameObject newHex = Instantiate(emptyTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
                 //newHex.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = gridRestrictions[hex];
                 restrictedTiles.Add(newHex);
             }
