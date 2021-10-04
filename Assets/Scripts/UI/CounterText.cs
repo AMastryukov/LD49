@@ -46,8 +46,8 @@ public class CounterText : MonoBehaviour
     }
     public void UpdateCounter(int value, bool affectColor, string prefix = "")
     {
-        if(affectColor)
-        {
+        //if(affectColor)
+        //{
             if (Counter == null) { return; }
 
             currentTween.Kill();
@@ -56,25 +56,33 @@ public class CounterText : MonoBehaviour
                 .OnUpdate(() =>
                 {
                     Counter.text = prefix + currentValue.ToString();
-                    if (int.Parse(Counter.text) <= ((int)(gameManager.MaximumPillar * gameManager.criticalThreshold)) || int.Parse(Counter.text) >= ((int)(gameManager.MaximumPillar * (1 - gameManager.criticalThreshold))))
+                    if (affectColor)
                     {
-                        Counter.color = _pillarDisplay.GetColorByName("Negative");
+                        if (int.Parse(Counter.text) <= ((int)(gameManager.MaximumPillar * gameManager.criticalThreshold)) || int.Parse(Counter.text) >= ((int)(gameManager.MaximumPillar * (1 - gameManager.criticalThreshold))))
+                        {
+                            Counter.color = _pillarDisplay.GetColorByName("Negative");
 
+                        }
+                        else
+                        {
+                            Counter.color = _pillarDisplay.GetColorByName("");
+                        }
                     }
+                    
                 });
-        }
-        else
-        {
-            if (Counter == null) { return; }
+        //}
+        //else
+        //{
+        //    if (Counter == null) { return; }
 
-            currentTween.Kill();
-            currentTween = DOTween.To(() => currentValue, x => currentValue = x, value, movementTime)
-                .SetEase(movementEase)
-                .OnUpdate(() =>
-                {
-                    Counter.text = prefix + currentValue.ToString();
-                });
-        }
+        //    currentTween.Kill();
+        //    currentTween = DOTween.To(() => currentValue, x => currentValue = x, value, movementTime)
+        //        .SetEase(movementEase)
+        //        .OnUpdate(() =>
+        //        {
+        //            Counter.text = prefix + currentValue.ToString();
+        //        });
+        //}
 
        
     }
