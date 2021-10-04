@@ -35,9 +35,15 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<Hex, Tile> gridOccupancy;
 
+    [SerializeField]
+    private List<Tile> tilePrefabs;
+    private Dictionary<Hex, string> gridRestrictions;
+
     [SerializeField] private GameObject previewTilePrefab;
+    [SerializeField] private GameObject restrictedTilePrefab;
 
     private GameObject previewTile;
+    private List<GameObject> restrictedTiles;
 
     /// <summary>
     /// Getall the tile that have been placed on the grid.
@@ -51,7 +57,12 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
+        if(mainCamera == null){
+            Debug.LogError("Missing main camera reference");
+        }
         gridOccupancy = new Dictionary<Hex, Tile>();
+        gridRestrictions = new Dictionary<Hex, string>();
+        restrictedTiles = new List<GameObject>();
     }
 
     public Vector3 HexToPoint(Hex hex)
@@ -60,6 +71,41 @@ public class GridManager : MonoBehaviour
         Vector3 xVec = new Vector3(Mathf.Sqrt(3) / 2, 0, 1f / 2) * gridSpacing;
 
         return (hex.q * zVec) + (hex.r * xVec);
+    }
+
+    public void UpdateRestrictions(Hex hex, Tile tile)
+    {
+        //First clear the restriction on this hex
+        if(gridRestrictions.ContainsKey(hex)) gridRestrictions.Remove(hex);
+
+        //check neighbors and add random restrictions for them if they arent already restricted
+        List<Hex> neighbors = GetNeighborsHex(hex);
+        foreach(Hex n in neighbors)
+        {
+            if (isEmptySpot(n) && !gridRestrictions.ContainsKey(n))
+            {
+                gridRestrictions.Add(n, tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)].Name);
+            }
+        }
+
+        VisualizeRestrictions();
+    }
+
+    public void VisualizeRestrictions()
+    {
+        foreach(GameObject tile in restrictedTiles)
+        {
+            Destroy(tile);
+        }
+
+        restrictedTiles.Clear();
+
+        foreach (Hex hex in gridRestrictions.Keys)
+        {
+            GameObject newHex = Instantiate(restrictedTilePrefab, HexToPoint(hex), Quaternion.identity, transform);
+            newHex.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = gridRestrictions[hex];
+            restrictedTiles.Add(newHex);
+        }
     }
 
     /// <summary>
@@ -73,6 +119,7 @@ public class GridManager : MonoBehaviour
     /// <param name="hex">hexagonal coordinate</param>
     public bool RegisterAndPlaceTile(Tile tileObject, Hex hex, bool silent = false)
     {
+        string tileName;
         if (gridOccupancy.ContainsKey(hex))
         {
             Debug.LogError("A tile already exists here");
@@ -80,8 +127,14 @@ public class GridManager : MonoBehaviour
         }
         else
         {
+            if (tileObject.Name != "" && gridRestrictions.TryGetValue(hex, out tileName) && tileName != "" && tileName != tileObject.Name)
+            {
+                // This could be sketch because the game manager doesn't know these values are changing
+                tileObject.Pillars.Culture = 0;
+                tileObject.Pillars.Economy = 0;
+                tileObject.Pillars.Military = 0;
+            }
             tileObject.transform.SetParent(transform, true);
-
             // Add to animation queue here if needed
             tileObject.transform.position = HexToPoint(hex) + Vector3.up * 0.5f;
             tileObject.transform.DOMove(HexToPoint(hex), 0.35f).SetEase(Ease.InCirc);
@@ -96,6 +149,7 @@ public class GridManager : MonoBehaviour
             }
 
             EndPreview();
+            UpdateRestrictions(hex, tileObject);
         }
 
         return true;
@@ -294,7 +348,6 @@ public class GridManager : MonoBehaviour
         
         if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide))
         {
-            Debug.DrawRay(mainCamera.transform.position, mainCamera.transform.forward * rayHit.distance, Color.green);
 
             if (previewTile == null)
             {

@@ -14,7 +14,6 @@ public class TileTray : MonoBehaviour
     [SerializeField] private Transform tileSpawn;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private float returnSpeed = 1f;
 
     private int tileCapacity;
     private Tile grabbedTile;
