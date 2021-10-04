@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Farm
   m_EditorClassIdentifier: 
   Name: Farm
+  TileType: 1
   Military: 0
   Economy: 1
   Culture: -1

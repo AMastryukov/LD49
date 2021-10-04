@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Blank
   m_EditorClassIdentifier: 
   Name: 
+  TileType: 3
   Military: 0
   Economy: 0
   Culture: 0
