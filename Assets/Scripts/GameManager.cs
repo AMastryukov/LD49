@@ -8,14 +8,14 @@ public class GameManager : MonoBehaviour
     public enum GameState { InProgress, Defeat, Victory }
     public enum GameOverState
     {
-        None,
         Victory,
         LowMilitary,
         LowEconomy,
         LowCulture,
         ExcessMilitary,
         ExcessEconomy,
-        ExcessCulture
+        ExcessCulture,
+        None
     }
 
     public static Action OnGameSetup;

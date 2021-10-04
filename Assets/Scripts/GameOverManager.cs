@@ -7,6 +7,7 @@ public class GameOverManager : MonoBehaviour
 {
     [SerializeField] private Canvas gameOverCanvas;
     [SerializeField] private TextMeshProUGUI gameStateTitle;
+    [SerializeField] private TextMeshProUGUI gameStateDescription;
     [SerializeField] private DialogueData[] gameOverDialogues;
 
     private GameManager _gameManager;
@@ -36,25 +37,17 @@ public class GameOverManager : MonoBehaviour
         }
 
         // Display advice over lose or win condition
-        switch (_gameManager.CurrentGameOverState)
+        // NOTE: gameOverDialogues[] indices should correspond to
+        // the order in which the enum GameManager.GameOverState is defined
+        if (_gameManager.CurrentGameOverState != GameManager.GameOverState.None)
         {
-            case GameManager.GameOverState.Victory:
-                break;
-            case GameManager.GameOverState.LowMilitary:
-                break;
-            case GameManager.GameOverState.LowEconomy:
-                break;
-            case GameManager.GameOverState.LowCulture:
-                break;
-            case GameManager.GameOverState.ExcessMilitary:
-                break;
-            case GameManager.GameOverState.ExcessEconomy:
-                break;
-            case GameManager.GameOverState.ExcessCulture:
-                break;
-            default:
-                // Matched GameManager.GameState.None, so do nothing
-                break;
+            int dialogueIndex = (int) _gameManager.CurrentGameOverState;
+            string description = "";
+            foreach (string sentence in gameOverDialogues[dialogueIndex].sentences)
+            {
+                description += sentence + " ";
+            }
+            gameStateDescription.text = description;
         }
     }
 
