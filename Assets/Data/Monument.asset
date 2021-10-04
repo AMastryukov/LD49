@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Monument
   m_EditorClassIdentifier: 
   Name: Monument
+  TileType: 2
   Military: -1
   Economy: 0
   Culture: 1

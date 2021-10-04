@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
-  gridSpacing: 1.7
+  gridSpacing: 1.8
   snapRange: 1
   tilePrefabs:
   - {fileID: 8664118289914058099, guid: f71338c3347b1bc42a73d29574fa9b3e, type: 3}
@@ -155,7 +155,8 @@ MonoBehaviour:
   - {fileID: 413921036768524617, guid: 4b2d0aac5c5ba054eadc2feab8e04058, type: 3}
   - {fileID: 5158895845328284591, guid: 9754db58892e58f478a7691920ff9751, type: 3}
   - {fileID: 1239163359743677340, guid: 41dd778f9f023744a9133d99cd0cb70f, type: 3}
-  previewTilePrefab: {fileID: 7422396117808681851, guid: be367e882456fe54bb6e6bd44b75e811, type: 3}
+  emptyTilePrefab: {fileID: 7422396117808681851, guid: be367e882456fe54bb6e6bd44b75e811, type: 3}
+  previewTilePrefab: {fileID: 4139862880183768336, guid: a32597df3c8c65d49909fe7f156df45f, type: 3}
   restrictedTilePrefab: {fileID: 3387802283833206837, guid: 1697049ac039084448300c6489b91c72, type: 3}
 --- !u!65 &6752609992955977822
 BoxCollider:
