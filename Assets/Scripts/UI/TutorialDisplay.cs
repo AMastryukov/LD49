@@ -7,6 +7,8 @@ using TMPro;
 
 public class TutorialDisplay : MonoBehaviour
 {
+    public static bool SeenTutorial { get; set; } = false;
+
     [SerializeField] private List<Canvas> tutorialPages;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button nextButton;
@@ -24,6 +26,8 @@ public class TutorialDisplay : MonoBehaviour
 
     private void Start()
     {
+        if (SeenTutorial) return;
+
         OpenTutorial();
     }
 
@@ -44,6 +48,8 @@ public class TutorialDisplay : MonoBehaviour
         canvas.enabled = false; 
         
         _gameManager.GameActive = true;
+
+        SeenTutorial = true;
     }
 
     public void PreviousPage()

@@ -19,20 +19,6 @@ public class MainMenuDisplay : MonoBehaviour
     {
         _originalMenuPositions = new List<Vector3>();
         _originalAdvisorPositions = new List<Vector3>();
-
-        #region Reset Positions
-        foreach (var transform in menuItems)
-        {
-            _originalMenuPositions.Add(transform.position);
-            transform.position += Vector3.left * _distance;
-        }
-
-        foreach (var transform in advisors)
-        {
-            _originalAdvisorPositions.Add(transform.position);
-            transform.position += Vector3.right * _distance;
-        }
-        #endregion
     }
 
     private void OnDestroy()
@@ -56,6 +42,20 @@ public class MainMenuDisplay : MonoBehaviour
 
     private IEnumerator SlideCoroutine()
     {
+        #region Reset Positions
+        foreach (var transform in menuItems)
+        {
+            _originalMenuPositions.Add(transform.position);
+            transform.position += Vector3.left * _distance;
+        }
+
+        foreach (var transform in advisors)
+        {
+            _originalAdvisorPositions.Add(transform.position);
+            transform.position += Vector3.right * _distance;
+        }
+        #endregion
+
         for (int i = 0; i < advisors.Count; i++)
         {
             advisors[i].transform.DOMove(_originalAdvisorPositions[i], 2f).SetEase(Ease.OutExpo);
