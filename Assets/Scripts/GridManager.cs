@@ -179,6 +179,7 @@ public class GridManager : MonoBehaviour
 
             tileObject.transform.SetParent(transform, true);
 
+            tileObject.transform.DORotate(new Vector3(0, 60 * UnityEngine.Random.Range(6, 11), 0), 0.1f);
             tileObject.transform.DOMove(HexToPoint(hex) + Vector3.up * 0.75f, 0.1f).SetEase(Ease.OutQuad)
                 .OnComplete(()=>
                 {
