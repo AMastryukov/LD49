@@ -7,6 +7,8 @@ using DG.Tweening;
 public class TileTray : MonoBehaviour
 {
     public static Action OnTilePlaced;
+    public static Action OnTileGrabbed;
+    public static Action OnTileReleased;
 
     public bool IsEnabled { get; set; } = false;
 
@@ -14,18 +16,20 @@ public class TileTray : MonoBehaviour
     [SerializeField] private Transform tileSpawn;
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private Camera mainCamera;
-    [SerializeField] private float returnSpeed = 1f;
 
     private int tileCapacity;
     private Tile grabbedTile;
     private List<Tile> tileTrayTiles;
     private GridManager _gridManager;
+    private AudioManager _audioManager;
 
     public Vector3 SpawnPosition => tileSpawn.transform.position;
+    public Tile GrabbedTile => grabbedTile;
 
     private void Awake()
     {
         _gridManager = FindObjectOfType<GridManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
 
         tileCapacity = tilePlaceHolders.Count;
         tileTrayTiles = new List<Tile>();
@@ -91,18 +95,22 @@ public class TileTray : MonoBehaviour
         {
             Tile hitTile = rayHit.transform.gameObject.GetComponent<Tile>();
 
-            if (hitTile == null || hitTile.tileState != ETileState.Neutral)
+            if (hitTile == null || hitTile.TileState != ETileState.Neutral)
             {
                 return false;
             }
 
             grabbedTile = hitTile;
-            hitTile.tileState = ETileState.Grabbed;
-            hitTile.PlayGrabbedSound();
+
+            hitTile.TileState = ETileState.Grabbed;
         }
 
         grabbedTile?.transform.DOKill();
         grabbedTile?.transform.DOScale(Vector3.one * 1f, 0.25f).SetEase(Ease.OutQuad);
+
+        OnTileGrabbed?.Invoke();
+
+        _gridManager.VisualizeRestrictions(grabbedTile);
 
         return true;
     }
@@ -117,7 +125,7 @@ public class TileTray : MonoBehaviour
             }
              
             tileTrayTiles.Remove(grabbedTile);
-            grabbedTile.tileState = ETileState.Placed;
+            grabbedTile.TileState = ETileState.Placed;
 
             OnTilePlaced?.Invoke();
             
@@ -130,14 +138,17 @@ public class TileTray : MonoBehaviour
 
     public bool TryReleaseTile()
     {
-        if (grabbedTile != null && grabbedTile.tileState == ETileState.Grabbed)
+        if (grabbedTile != null && grabbedTile.TileState == ETileState.Grabbed)
         {
             grabbedTile.transform.DOScale(Vector3.one * 0.75f, 0.25f).SetEase(Ease.OutQuad);
 
-            grabbedTile.tileState = ETileState.Neutral;
+            grabbedTile.TileState = ETileState.Neutral;
             grabbedTile = null;
 
             UpdateTilePositions(0.5f);
+
+            OnTileReleased?.Invoke();
+            _gridManager.VisualizeRestrictions();
 
             return true;
         }
@@ -155,7 +166,7 @@ public class TileTray : MonoBehaviour
         RaycastHit rayHit;
         if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide))
         {
-            grabbedTile.transform.position = rayHit.point;
+            grabbedTile.transform.position = rayHit.point + Vector3.up * 0.75f;
         }
 
         return true;

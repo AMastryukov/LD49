@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum ETileState
 {
@@ -11,19 +12,40 @@ public enum ETileState
 
 public class Tile : MonoBehaviour
 {
-    private AudioManager _masterAudio;
+    public Canvas TileCanvas;
+
+    private ETileState _tileState = ETileState.Neutral;
+    public ETileState TileState
+    {
+        get
+        {
+            return _tileState;
+        }
+        set
+        {
+            _tileState = value;
+            UpdateCanvasVisibility();
+        }
+    }
+    public ETileType Type => data.TileType;
+    public string Name => data.Name;
+    public Pillars Pillars { get; set; }
 
     [SerializeField] private AudioClip placedSound;
     [SerializeField] private AudioClip grabbedSound;
     [SerializeField] private TileData data;
-    
-    public ETileState tileState = ETileState.Neutral;
-    public string Name => data.Name;
-    public Pillars Pillars { get; set; }
+
+    [Header("Pillar Texts")]
+    [SerializeField] private TextMeshProUGUI militaryPillarText;
+    [SerializeField] private TextMeshProUGUI economyPillarText;
+    [SerializeField] private TextMeshProUGUI culturePillarText;
+
+    private AudioManager _masterAudio;
 
     public void Awake()
     {
         _masterAudio = FindObjectOfType<AudioManager>();
+
         Pillars = new Pillars();
 
         // A Gulag is a special case where all pillar values are random
@@ -33,21 +55,28 @@ public class Tile : MonoBehaviour
             Pillars.Economy = Random.Range(-3, 4);
             Pillars.Culture = Random.Range(-3, 4);
 
+            militaryPillarText.text = "?";
+            economyPillarText.text = "?";
+            culturePillarText.text = "?";
+
             return;
         }
 
         Pillars.Military = data.Military;
         Pillars.Economy = data.Economy;
         Pillars.Culture = data.Culture;
+
+        militaryPillarText.gameObject.SetActive(Pillars.Military != 0);
+        economyPillarText.gameObject.SetActive(Pillars.Economy != 0);
+        culturePillarText.gameObject.SetActive(Pillars.Culture != 0);
+
+        militaryPillarText.text = (Pillars.Military > 0 ? "+" : "") + Pillars.Military.ToString();
+        economyPillarText.text = (Pillars.Economy > 0 ? "+" : "") + Pillars.Economy.ToString();
+        culturePillarText.text = (Pillars.Culture > 0 ? "+" : "") + Pillars.Culture.ToString();
     }
 
-    public void PlayPlacedSound()
+    public void UpdateCanvasVisibility()
     {
-        _masterAudio.playAudioClip(placedSound);
-    }
-
-    public void PlayGrabbedSound()
-    {
-        _masterAudio.playAudioClip(grabbedSound);
+        TileCanvas.enabled = (TileState != ETileState.Placed);
     }
 }

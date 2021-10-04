@@ -28,8 +28,16 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9168041358610037947, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.124
+      objectReference: {fileID: 0}
+    - target: {fileID: 9168041358610037947, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 9168041358610037947, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.007
       objectReference: {fileID: 0}
     - target: {fileID: 9168041358610037949, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: m_CastShadows
@@ -45,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 909f0a0c42a65d74cab34167e152e86d, type: 2}
     - target: {fileID: 9168041359103047618, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: m_Name
-      value: GridManager
+      value: Grid Manager
       objectReference: {fileID: 0}
     - target: {fileID: 9168041359103047620, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: m_RootOrder
@@ -90,6 +98,10 @@ PrefabInstance:
     - target: {fileID: 9168041359103047620, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9168041359103047621, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
+      propertyPath: snapRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9168041359103047621, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: mainCamera

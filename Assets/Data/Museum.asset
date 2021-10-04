@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Museum
   m_EditorClassIdentifier: 
   Name: Museum
-  Military: -2
+  TileType: 2
+  Level: 3
+  Military: -3
   Economy: 0
-  Culture: 2
+  Culture: 3

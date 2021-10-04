@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Outpost
   m_EditorClassIdentifier: 
   Name: Outpost
-  Military: 1
-  Economy: -1
+  TileType: 0
+  Level: 2
+  Military: 2
+  Economy: -2
   Culture: 0

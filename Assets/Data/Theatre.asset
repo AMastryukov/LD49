@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Theatre
   m_EditorClassIdentifier: 
   Name: Theatre
-  Military: -3
+  TileType: 2
+  Level: 2
+  Military: -2
   Economy: 0
-  Culture: 3
+  Culture: 2

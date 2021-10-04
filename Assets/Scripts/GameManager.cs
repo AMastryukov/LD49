@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,11 +22,14 @@ public class GameManager : MonoBehaviour
     public static Action OnGameSetup;
     public static Action OnTurnComplete;
     public static Action OnGameOver;
+    public static Action OnPillarDeltasUpdated;
 
     public GameState CurrentGameState = GameState.InProgress;
     public GameOverState CurrentGameOverState = GameOverState.None;
     public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
+    public Pillars PillarDeltas { get; set; }
+    public int TurnUntilDecay { get; set; } = 2;
 
     private bool _isEnabled = false;
     public bool GameActive
@@ -48,23 +52,31 @@ public class GameManager : MonoBehaviour
 
     private GridManager _gridManager;
     private TileTray _tileTray;
-    private AudioManager _masterAudio;
+    private AudioManager _audioManager;
 
     private void Awake()
     {
         Pillars = new Pillars();
+        PillarDeltas = new Pillars();
+
         _gridManager = FindObjectOfType<GridManager>();
         _tileTray = FindObjectOfType<TileTray>();
-        _masterAudio = FindObjectOfType<AudioManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
 
         GridManager.OnTilePlacementConfirmed += ProcessTurn;
         TileTray.OnTilePlaced += PopulateTileTray;
+        TileTray.OnTilePlaced += UpdatePillarDeltaValues;
+        GridManager.OnTileEnterHex += UpdatePillarDeltaValues;
+        GridManager.OnTileLeaveHex += UpdatePillarDeltaValues;
     }
 
     private void OnDestroy()
     {
         GridManager.OnTilePlacementConfirmed -= ProcessTurn;
         TileTray.OnTilePlaced -= PopulateTileTray;
+        TileTray.OnTilePlaced -= UpdatePillarDeltaValues;
+        GridManager.OnTileEnterHex -= UpdatePillarDeltaValues;
+        GridManager.OnTileLeaveHex -= UpdatePillarDeltaValues;
     }
 
     private void Start()
@@ -76,7 +88,10 @@ public class GameManager : MonoBehaviour
     {
         PlaceStartingTile();
         PopulateTileTray();
+
         ResetPillars();
+        UpdatePillarDeltaValues();
+        UpdatePillarValues();
 
         _tileTray.IsEnabled = true;
 
@@ -123,22 +138,60 @@ public class GameManager : MonoBehaviour
         UpdatePillarValues();
         CheckLoseConditions();
         CheckWinConditions();
+        DecayTiles();
 
         CurrentTurn++;
+        TurnUntilDecay--;
 
         OnTurnComplete?.Invoke();
     }
 
-    private void UpdatePillarValues()
+    private void DecayTiles()
     {
-        Pillars deltaPillars = new Pillars();
+        if (TurnUntilDecay == 0)
+        {
+            var tiles = _gridManager.GetTiles().Where(t => t.Type != ETileType.None);
+            var randomTile = tiles.ElementAt(UnityEngine.Random.Range(0, tiles.Count()));
+
+            if (randomTile != null && randomTile != _gridManager.LastTilePlaced) 
+            {
+                // Replace tile with empty land
+                var newTilePrefab = tilePrefabs.Where(t => t.Type == ETileType.None).FirstOrDefault();
+                var newTile = Instantiate(newTilePrefab);
+
+                newTile.Pillars.Military = 0;
+                newTile.Pillars.Economy = 0;
+                newTile.Pillars.Culture = 0;
+
+                _gridManager.ReplaceTile(randomTile, newTile);
+            }
+
+            TurnUntilDecay = 3;
+        }
+    }
+
+    private void UpdatePillarDeltaValues()
+    {
+        PillarDeltas = new Pillars();
 
         foreach (Tile tile in _gridManager.GetTiles())
         {
-            deltaPillars += tile.Pillars;
+            PillarDeltas += tile.Pillars;
         }
 
-        Pillars += deltaPillars;
+        // Sum the currently held tile as well
+        if (_tileTray.GrabbedTile != null && _tileTray.GrabbedTile.Type != ETileType.None && _gridManager.IsTileHoveringAboveValidHex)
+        {
+            PillarDeltas += _tileTray.GrabbedTile.Pillars;
+        }
+
+        OnPillarDeltasUpdated?.Invoke();
+
+    }
+
+    private void UpdatePillarValues()
+    {
+        Pillars += PillarDeltas;
     }
 
     private void CheckLoseConditions()
@@ -178,7 +231,7 @@ public class GameManager : MonoBehaviour
 
         if (Pillars.Culture <= minimumPillar)
         {
-            Debug.Log("Your influence over your population dwindled and your state slowly dissolved.");
+            Debug.Log("Your nation's lack of culture resulted in a loss of its identity. The nation split into numerous tribes that began to war with one another.");
 
             CurrentGameOverState = GameOverState.LowCulture;
             CurrentGameState = GameState.Defeat;
@@ -186,7 +239,7 @@ public class GameManager : MonoBehaviour
 
         if (Pillars.Culture >= maximumPillar)
         {
-            Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
+            Debug.Log("Your nation's culture . Long live the resistance!");
 
             CurrentGameOverState = GameOverState.ExcessCulture;
             CurrentGameState = GameState.Defeat;
@@ -196,8 +249,9 @@ public class GameManager : MonoBehaviour
         {
             _tileTray.IsEnabled = false;
             GameActive = false;
+            
+            _audioManager.PlaySound(AudioManager.Sounds.GameOver);
 
-            _masterAudio.gameOverSound();
             OnGameOver?.Invoke();
         }
     }
@@ -212,4 +266,6 @@ public class GameManager : MonoBehaviour
             OnGameOver?.Invoke();
         }
     }
+
+
 }
