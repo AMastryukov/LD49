@@ -9,7 +9,6 @@ public class AudioManager : MonoBehaviour
     {
         ButtonHover,
         ButtonClick,
-        TileGrab,
         TilePlace,
         Typewriter,
         GameOver
@@ -66,10 +65,6 @@ public class AudioManager : MonoBehaviour
 
             case Sounds.ButtonClick:
                 effectsSource.PlayOneShot(buttonClick);
-                break;
-
-            case Sounds.TileGrab:
-                effectsSource.PlayOneShot(tileGrab);
                 break;
 
             case Sounds.TilePlace:

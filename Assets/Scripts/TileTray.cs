@@ -103,8 +103,6 @@ public class TileTray : MonoBehaviour
             grabbedTile = hitTile;
 
             hitTile.tileState = ETileState.Grabbed;
-
-            _audioManager.PlaySound(AudioManager.Sounds.TileGrab);
         }
 
         grabbedTile?.transform.DOKill();

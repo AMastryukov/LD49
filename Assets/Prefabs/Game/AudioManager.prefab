@@ -301,10 +301,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 4169600835323852478}
   effectsSource: {fileID: 2202452345184784154}
-  buttonHover: {fileID: 8300000, guid: 55493624039d62543912d06ec56cbef7, type: 3}
-  buttonClick: {fileID: 8300000, guid: 20e3add4cf2ff2f4fb8f7dbc62748462, type: 3}
-  tileGrab: {fileID: 8300000, guid: 56ff7c92debf20040aad670611059c12, type: 3}
-  tilePlace: {fileID: 8300000, guid: db3472169e0168a44bfce22ffd2c203c, type: 3}
+  buttonHover: {fileID: 8300000, guid: ff0eac4467c1cf94a84766814986adee, type: 3}
+  buttonClick: {fileID: 8300000, guid: 66868ccc7808b2a41b64af31a2cf0283, type: 3}
+  tileGrab: {fileID: 8300000, guid: b944d734785578f48a0b6d8acf1d28e6, type: 3}
+  tilePlace: {fileID: 8300000, guid: 4adabd45226e43644a4bbe8e8e3d5dd0, type: 3}
   typewriter: {fileID: 8300000, guid: 975b09064e8ce584c8bb843ca47c4dd4, type: 3}
   gameOver: {fileID: 8300000, guid: a1dd1957ea8281f4ca7e0b79d76fe575, type: 3}
   gameMusic:
