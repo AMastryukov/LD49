@@ -156,6 +156,7 @@ MonoBehaviour:
   - {fileID: 5158895845328284591, guid: 9754db58892e58f478a7691920ff9751, type: 3}
   - {fileID: 1239163359743677340, guid: 41dd778f9f023744a9133d99cd0cb70f, type: 3}
   previewTilePrefab: {fileID: 7422396117808681851, guid: be367e882456fe54bb6e6bd44b75e811, type: 3}
+  restrictedTilePrefab: {fileID: 3387802283833206837, guid: 1697049ac039084448300c6489b91c72, type: 3}
 --- !u!65 &6752609992955977822
 BoxCollider:
   m_ObjectHideFlags: 0
