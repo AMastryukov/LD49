@@ -134,6 +134,7 @@ public class GridManager : MonoBehaviour
                 tileObject.Pillars.Economy = 0;
                 tileObject.Pillars.Military = 0;
             }
+
             tileObject.transform.SetParent(transform, true);
 
             tileObject.transform.DOMove(HexToPoint(hex) + Vector3.up * 0.75f, 0.1f).SetEase(Ease.OutQuad)
@@ -146,11 +147,11 @@ public class GridManager : MonoBehaviour
                         {
                             tileObject.PlayPlacedSound();
                         }
-
-                        tileObject.TileCanvas.enabled = false;
                     });
                 });
 
+
+            tileObject.TileCanvas.enabled = false;
             tileObject.tileState = ETileState.Placed;
             gridOccupancy.Add(hex, tileObject);
 
