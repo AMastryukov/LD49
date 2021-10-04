@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4424808, g: 0.49155736, b: 0.57140356, a: 1}
+  m_IndirectSpecularColor: {r: 0.44248056, g: 0.49155706, b: 0.5714029, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1959,14 +1959,6 @@ PrefabInstance:
     - target: {fileID: 6241104894036818886, guid: c4e6673664cb6d246bd9d16568eb6238, type: 3}
       propertyPath: m_Name
       value: Grid Manager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6241104894361825471, guid: c4e6673664cb6d246bd9d16568eb6238, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.124
-      objectReference: {fileID: 0}
-    - target: {fileID: 6241104894361825471, guid: c4e6673664cb6d246bd9d16568eb6238, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.007
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e6673664cb6d246bd9d16568eb6238, type: 3}

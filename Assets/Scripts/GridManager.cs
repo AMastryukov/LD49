@@ -28,6 +28,11 @@ public struct Hex
 public class GridManager : MonoBehaviour
 {
     public static Action OnTilePlacementConfirmed;
+    public static Action OnTileEnterHex;
+    public static Action OnTileLeaveHex;
+
+    public bool IsTileHoveringAboveValidHex = false;
+    public Tile LastTilePlaced;
 
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float gridSpacing = 1.5f;
@@ -45,6 +50,8 @@ public class GridManager : MonoBehaviour
 
     private GameObject previewTile;
     private List<GameObject> restrictedTiles;
+    private TileTray _tileTray;
+    private AudioManager _audioManager;
 
     /// <summary>
     /// Getall the tile that have been placed on the grid.
@@ -58,12 +65,17 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
-        if(mainCamera == null){
+        if(mainCamera == null)
+        {
             Debug.LogError("Missing main camera reference");
         }
+
         gridOccupancy = new Dictionary<Hex, Tile>();
         //gridRestrictions = new Dictionary<Hex, string>();
         restrictedTiles = new List<GameObject>();
+
+        _tileTray = FindObjectOfType<TileTray>();
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
     public Vector3 HexToPoint(Hex hex)
@@ -74,14 +86,14 @@ public class GridManager : MonoBehaviour
         return (hex.q * zVec) + (hex.r * xVec);
     }
 
-    public bool isValidPlacement(Hex hex, Tile tile)
+    public bool IsValidPlacement(Hex hex, Tile tile)
     {
-
         // Check logic here
         List<Tile> neighbors = GetNeighbors(hex);
-        foreach(Tile tile_n in neighbors)
+
+        foreach (Tile neighbor in neighbors)
         {
-            if(tile_n.Name == tile.Name)
+            if (neighbor.Type == tile.Type && tile.Type != ETileType.None)
             {
                 return false;
             }
@@ -122,12 +134,11 @@ public class GridManager : MonoBehaviour
     {
         EndVisualizeRestrictions();
 
-        if(tile == null)
+        if (tile == null)
         {
             foreach (Hex spot in GetAllValidSpots())
             {
                 GameObject newHex = Instantiate(emptyTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
-                //newHex.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = gridRestrictions[hex];
                 restrictedTiles.Add(newHex);
             }
         }
@@ -136,7 +147,8 @@ public class GridManager : MonoBehaviour
             foreach (Hex spot in GetAllValidSpots())
             {
                 GameObject newHex;
-                if (isValidPlacement(spot, tile))
+
+                if (IsValidPlacement(spot, tile))
                 {
                     newHex = Instantiate(previewTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
                 }
@@ -144,11 +156,29 @@ public class GridManager : MonoBehaviour
                 {
                     newHex = Instantiate(restrictedTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
                 }
+
                 restrictedTiles.Add(newHex);
             }
         }
+    }
 
-        
+    public void ReplaceTile(Tile tile, Tile replacement)
+    {
+        replacement.transform.position = tile.transform.position;
+        replacement.transform.rotation = tile.transform.rotation;
+
+        var hex = GetHexCoordinates(tile);
+
+        RemoveTile(tile);
+
+        replacement.TileState = ETileState.Placed;
+        gridOccupancy.Add(hex, replacement);
+    }
+
+    public void RemoveTile(Tile tile)
+    {
+        gridOccupancy.Remove(GetHexCoordinates(tile));
+        Destroy(tile.gameObject);
     }
 
     /// <summary>
@@ -169,7 +199,9 @@ public class GridManager : MonoBehaviour
         }
         else
         {
-            if (!isValidPlacement(hex, tileObject))
+            LastTilePlaced = tileObject;
+
+            if (!IsValidPlacement(hex, tileObject))
             {
                 // This could be sketch because the game manager doesn't know these values are changing
                 tileObject.Pillars.Culture = 0;
@@ -179,7 +211,7 @@ public class GridManager : MonoBehaviour
 
             tileObject.transform.SetParent(transform, true);
 
-            tileObject.transform.DORotate(new Vector3(0, 60 * UnityEngine.Random.Range(6, 11), 0), 0.1f);
+            tileObject.transform.DORotate(new Vector3(0, 60 * UnityEngine.Random.Range(6, 11), 0), 0.25f).SetEase(Ease.OutCirc);
             tileObject.transform.DOMove(HexToPoint(hex) + Vector3.up * 0.75f, 0.1f).SetEase(Ease.OutQuad)
                 .OnComplete(()=>
                 {
@@ -188,14 +220,13 @@ public class GridManager : MonoBehaviour
                     {
                         if (!silent)
                         {
-                            tileObject.PlayPlacedSound();
+                            _audioManager.PlaySound(AudioManager.Sounds.TilePlace);
                         }
                     });
                 });
 
 
-            tileObject.TileCanvas.enabled = false;
-            tileObject.tileState = ETileState.Placed;
+            tileObject.TileState = ETileState.Placed;
             gridOccupancy.Add(hex, tileObject);
 
             if (!silent)
@@ -205,7 +236,6 @@ public class GridManager : MonoBehaviour
 
             EndPreview();
             VisualizeRestrictions(null);
-            //UpdateRestrictions(hex, tileObject);
         }
 
         return true;
@@ -283,7 +313,7 @@ public class GridManager : MonoBehaviour
     {
         foreach (Hex key in gridOccupancy.Keys)
         {
-            if (gridOccupancy[key] = tile)
+            if (gridOccupancy[key] == tile)
             {
                 return key;
             }
@@ -403,19 +433,21 @@ public class GridManager : MonoBehaviour
         RaycastHit rayHit;
         
         if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide))
-        {
-
-            if (previewTile == null)
-            {
-                previewTile = Instantiate(previewTilePrefab, rayHit.point, Quaternion.identity, transform);
-            }
-            
+        {            
             Hex hex = ClosestValidHex(rayHit.point);
             Vector3 newPos = HexToPoint(hex);
 
             if (Vector3.Distance(rayHit.point, newPos) < snapRange)
             {
-                previewTile.transform.position = newPos;
+                if (previewTile == null)
+                {
+                    IsTileHoveringAboveValidHex = IsValidPlacement(hex, _tileTray.GrabbedTile);
+
+                    previewTile = Instantiate(previewTilePrefab, rayHit.point, Quaternion.identity, transform);
+                    previewTile.transform.position = newPos;
+
+                    OnTileEnterHex?.Invoke();
+                }
             }
             else
             {
@@ -432,8 +464,12 @@ public class GridManager : MonoBehaviour
     {
         if (previewTile != null)
         {
+            IsTileHoveringAboveValidHex = false;
+
             Destroy(previewTile);
             previewTile = null;
+
+            OnTileLeaveHex?.Invoke();
         }
     }
 }

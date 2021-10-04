@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Monument
   TileType: 2
+  Level: 1
   Military: -1
   Economy: 0
   Culture: 1
