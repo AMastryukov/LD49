@@ -50,6 +50,7 @@ public class GridManager : MonoBehaviour
     private GameObject previewTile;
     private List<GameObject> restrictedTiles;
     private TileTray _tileTray;
+    private AudioManager _audioManager;
 
     /// <summary>
     /// Getall the tile that have been placed on the grid.
@@ -71,7 +72,9 @@ public class GridManager : MonoBehaviour
         gridOccupancy = new Dictionary<Hex, Tile>();
         //gridRestrictions = new Dictionary<Hex, string>();
         restrictedTiles = new List<GameObject>();
+
         _tileTray = FindObjectOfType<TileTray>();
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
     public Vector3 HexToPoint(Hex hex)
@@ -198,7 +201,7 @@ public class GridManager : MonoBehaviour
                     {
                         if (!silent)
                         {
-                            tileObject.PlayPlacedSound();
+                            _audioManager.PlaySound(AudioManager.Sounds.TilePlace);
                         }
                     });
                 });

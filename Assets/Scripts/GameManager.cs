@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private GridManager _gridManager;
     private TileTray _tileTray;
-    private AudioManager _masterAudio;
+    private AudioManager _audioManager;
 
     private void Awake()
     {
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
         _gridManager = FindObjectOfType<GridManager>();
         _tileTray = FindObjectOfType<TileTray>();
-        _masterAudio = FindObjectOfType<AudioManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
 
         GridManager.OnTilePlacementConfirmed += ProcessTurn;
         TileTray.OnTilePlaced += PopulateTileTray;
@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour
             _tileTray.IsEnabled = false;
             GameActive = false;
 
-            _masterAudio.gameOverSound();
+            _audioManager.PlaySound(AudioManager.Sounds.GameOver);
 
             // TODO: Show defeat screen
         }

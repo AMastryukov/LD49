@@ -21,6 +21,7 @@ public class TileTray : MonoBehaviour
     private Tile grabbedTile;
     private List<Tile> tileTrayTiles;
     private GridManager _gridManager;
+    private AudioManager _audioManager;
 
     public Vector3 SpawnPosition => tileSpawn.transform.position;
     public Tile GrabbedTile => grabbedTile;
@@ -28,6 +29,7 @@ public class TileTray : MonoBehaviour
     private void Awake()
     {
         _gridManager = FindObjectOfType<GridManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
 
         tileCapacity = tilePlaceHolders.Count;
         tileTrayTiles = new List<Tile>();
@@ -101,7 +103,8 @@ public class TileTray : MonoBehaviour
             grabbedTile = hitTile;
 
             hitTile.tileState = ETileState.Grabbed;
-            hitTile.PlayGrabbedSound();
+
+            _audioManager.PlaySound(AudioManager.Sounds.TileGrab);
         }
 
         grabbedTile?.transform.DOKill();

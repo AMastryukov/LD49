@@ -60,14 +60,4 @@ public class Tile : MonoBehaviour
         economyPillarText.text = (Pillars.Economy > 0 ? "+" : "") + Pillars.Economy.ToString();
         culturePillarText.text = (Pillars.Culture > 0 ? "+" : "") + Pillars.Culture.ToString();
     }
-
-    public void PlayPlacedSound()
-    {
-        _masterAudio.playAudioClip(placedSound);
-    }
-
-    public void PlayGrabbedSound()
-    {
-        _masterAudio.playAudioClip(grabbedSound);
-    }
 }
