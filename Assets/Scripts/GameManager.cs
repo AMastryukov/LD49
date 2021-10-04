@@ -137,12 +137,13 @@ public class GameManager : MonoBehaviour
         }
 
         // Sum the currently held tile as well
-        if (_tileTray.GrabbedTile != null)
+        if (_tileTray.GrabbedTile != null && !string.IsNullOrEmpty(_tileTray.GrabbedTile.Name))
         {
             PillarDeltas += _tileTray.GrabbedTile.Pillars;
         }
 
         OnPillarDeltasUpdated?.Invoke();
+
     }
 
     private void UpdatePillarValues()
@@ -183,14 +184,14 @@ public class GameManager : MonoBehaviour
 
         if (Pillars.Culture <= minimumPillar)
         {
-            Debug.Log("Your influence over your population dwindled and your state slowly dissolved.");
+            Debug.Log("Your nation's lack of culture resulted in a loss of its identity. The nation split into numerous tribes that began to war with one another.");
 
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture >= maximumPillar)
         {
-            Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
+            Debug.Log("Your nation's culture . Long live the resistance!");
 
             CurrentGameState = GameState.Defeat;
         }

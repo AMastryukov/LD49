@@ -82,9 +82,20 @@ public class GridManager : MonoBehaviour
         {
             tileObject.transform.SetParent(transform, true);
 
-            // Add to animation queue here if needed
-            tileObject.transform.position = HexToPoint(hex) + Vector3.up * 0.75f;
-            tileObject.transform.DOMove(HexToPoint(hex), 0.35f).SetEase(Ease.InCirc);
+            tileObject.transform.DOMove(HexToPoint(hex) + Vector3.up * 0.75f, 0.1f).SetEase(Ease.OutQuad)
+                .OnComplete(()=>
+                {
+                    tileObject.transform.DOMove(HexToPoint(hex), 0.35f).SetEase(Ease.InCirc)
+                    .OnComplete(()=>
+                    {
+                        if (!silent)
+                        {
+                            tileObject.PlayPlacedSound();
+                        }
+
+                        tileObject.TileCanvas.enabled = false;
+                    });
+                });
 
             tileObject.tileState = ETileState.Placed;
             gridOccupancy.Add(hex, tileObject);
@@ -92,7 +103,6 @@ public class GridManager : MonoBehaviour
             if (!silent)
             {
                 OnTilePlacementConfirmed?.Invoke();
-                tileObject.PlayPlacedSound();
             }
 
             EndPreview();
