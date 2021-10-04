@@ -7,6 +7,8 @@ using DG.Tweening;
 public class TileTray : MonoBehaviour
 {
     public static Action OnTilePlaced;
+    public static Action OnTileGrabbed;
+    public static Action OnTileReleased;
 
     public bool IsEnabled { get; set; } = false;
 
@@ -22,6 +24,7 @@ public class TileTray : MonoBehaviour
     private GridManager _gridManager;
 
     public Vector3 SpawnPosition => tileSpawn.transform.position;
+    public Tile GrabbedTile => grabbedTile;
 
     private void Awake()
     {
@@ -104,6 +107,8 @@ public class TileTray : MonoBehaviour
         grabbedTile?.transform.DOKill();
         grabbedTile?.transform.DOScale(Vector3.one * 1f, 0.25f).SetEase(Ease.OutQuad);
 
+        OnTileGrabbed?.Invoke();
+
         return true;
     }
 
@@ -139,6 +144,8 @@ public class TileTray : MonoBehaviour
 
             UpdateTilePositions(0.5f);
 
+            OnTileReleased?.Invoke();
+
             return true;
         }
 
@@ -155,7 +162,7 @@ public class TileTray : MonoBehaviour
         RaycastHit rayHit;
         if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide))
         {
-            grabbedTile.transform.position = rayHit.point;
+            grabbedTile.transform.position = rayHit.point + Vector3.up * 0.75f;
         }
 
         return true;

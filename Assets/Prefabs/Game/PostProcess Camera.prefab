@@ -79,6 +79,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1922410552699491873, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 2241946421287468433, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -123,6 +127,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6172768941873765304, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6223875891141064978, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -165,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001987, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Name
-      value: PostProcess Cameraa Variant
+      value: PostProcess Camera
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001987, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_IsActive

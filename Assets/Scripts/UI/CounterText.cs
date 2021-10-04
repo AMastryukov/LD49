@@ -10,33 +10,34 @@ public class CounterText : MonoBehaviour
     [SerializeField] private float movementTime = 1f;
     [SerializeField] private Ease movementEase = Ease.OutExpo;
 
-    private TextMeshProUGUI counter;
+    public TextMeshProUGUI Counter;
+
     private int currentValue = 0;
     private Tween currentTween;
 
     private void Awake()
     {
-        counter = GetComponent<TextMeshProUGUI>();
+        Counter = GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetCounter(int value)
+    public void SetCounter(int value, string prefix = "")
     {
         currentTween.Kill();
 
-        counter.text = value.ToString();
+        Counter.text = prefix + value.ToString();
         currentValue = value;
     }
 
-    public void UpdateCounter(int value)
+    public void UpdateCounter(int value, string prefix = "")
     {
-        if (counter == null) { return; }
+        if (Counter == null) { return; }
 
         currentTween.Kill();
         currentTween = DOTween.To(() => currentValue, x => currentValue = x, value, movementTime)
             .SetEase(movementEase)
             .OnUpdate(() =>
             {
-                counter.text = currentValue.ToString();
+                Counter.text = prefix + currentValue.ToString();
             });
     }
 }
