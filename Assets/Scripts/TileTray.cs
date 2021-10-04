@@ -21,6 +21,7 @@ public class TileTray : MonoBehaviour
     private Tile grabbedTile;
     private List<Tile> tileTrayTiles;
     private GridManager _gridManager;
+    private AudioManager _audioManager;
 
     public Vector3 SpawnPosition => tileSpawn.transform.position;
     public Tile GrabbedTile => grabbedTile;
@@ -28,6 +29,7 @@ public class TileTray : MonoBehaviour
     private void Awake()
     {
         _gridManager = FindObjectOfType<GridManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
 
         tileCapacity = tilePlaceHolders.Count;
         tileTrayTiles = new List<Tile>();
@@ -93,20 +95,21 @@ public class TileTray : MonoBehaviour
         {
             Tile hitTile = rayHit.transform.gameObject.GetComponent<Tile>();
 
-            if (hitTile == null || hitTile.tileState != ETileState.Neutral)
+            if (hitTile == null || hitTile.TileState != ETileState.Neutral)
             {
                 return false;
             }
 
             grabbedTile = hitTile;
-            hitTile.tileState = ETileState.Grabbed;
-            hitTile.PlayGrabbedSound();
+
+            hitTile.TileState = ETileState.Grabbed;
         }
 
         grabbedTile?.transform.DOKill();
         grabbedTile?.transform.DOScale(Vector3.one * 1f, 0.25f).SetEase(Ease.OutQuad);
 
         OnTileGrabbed?.Invoke();
+
         _gridManager.VisualizeRestrictions(grabbedTile);
 
         return true;
@@ -122,7 +125,7 @@ public class TileTray : MonoBehaviour
             }
              
             tileTrayTiles.Remove(grabbedTile);
-            grabbedTile.tileState = ETileState.Placed;
+            grabbedTile.TileState = ETileState.Placed;
 
             OnTilePlaced?.Invoke();
             
@@ -135,11 +138,11 @@ public class TileTray : MonoBehaviour
 
     public bool TryReleaseTile()
     {
-        if (grabbedTile != null && grabbedTile.tileState == ETileState.Grabbed)
+        if (grabbedTile != null && grabbedTile.TileState == ETileState.Grabbed)
         {
             grabbedTile.transform.DOScale(Vector3.one * 0.75f, 0.25f).SetEase(Ease.OutQuad);
 
-            grabbedTile.tileState = ETileState.Neutral;
+            grabbedTile.TileState = ETileState.Neutral;
             grabbedTile = null;
 
             UpdateTilePositions(0.5f);

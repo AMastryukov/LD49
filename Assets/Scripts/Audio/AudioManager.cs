@@ -5,59 +5,97 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource masterAudio;
-    [SerializeField] private AudioClip[] audioClips;
-    [SerializeField] private AudioClip[] gameMusic;
+    public enum Sounds
+    {
+        ButtonHover,
+        ButtonClick,
+        TilePlace,
+        Typewriter,
+        GameOver
+    }
+
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource effectsSource;
+
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip buttonHover;
+    [SerializeField] private AudioClip buttonClick;
+    [SerializeField] private AudioClip tileGrab;
+    [SerializeField] private AudioClip tilePlace;
+    [SerializeField] private AudioClip typewriter;
     [SerializeField] private AudioClip gameOver;
 
-    private int currentClipIndex = 0;
+    [Header("Music Clips")]
+    [SerializeField] private AudioClip[] gameMusic;
+    [SerializeField] private AudioClip mainMenuMusic;
 
-    private void Awake()
-    {
-        masterAudio = gameObject.GetComponent<AudioSource>();
-    }
+    private int currentGameMusicIndex = 0;
 
     private void Start()
     {
         // Get random game music
-        currentClipIndex = Random.Range(0, gameMusic.Length);
+        currentGameMusicIndex = Random.Range(0, gameMusic.Length);
         PlayCurrentMusic();
     }
 
     void Update()
     {
-        if (!masterAudio.isPlaying)
+        if (!musicSource.isPlaying)
         {
             // This is dumb but we only have two music clips so fuck off
-            if (currentClipIndex == 0)
+            if (currentGameMusicIndex == 0)
             {
-                currentClipIndex = 1;
+                currentGameMusicIndex = 1;
                 return;
             }
             
-            currentClipIndex = 0;
+            currentGameMusicIndex = 0;
+
+            PlayCurrentMusic();
+        }
+    }
+
+    public void PlaySound(Sounds sound)
+    {
+        switch (sound)
+        {
+            case Sounds.ButtonHover:
+                effectsSource.PlayOneShot(buttonHover);
+                break;
+
+            case Sounds.ButtonClick:
+                effectsSource.PlayOneShot(buttonClick);
+                break;
+
+            case Sounds.TilePlace:
+                effectsSource.PlayOneShot(tilePlace);
+                break;
+
+            case Sounds.Typewriter:
+                effectsSource.PlayOneShot(typewriter);
+                break;
+
+            case Sounds.GameOver:
+                effectsSource.PlayOneShot(gameOver);
+                break;
         }
     }
 
     private void PlayCurrentMusic()
     {
-        masterAudio.Stop();
-        masterAudio.clip = gameMusic[currentClipIndex];
-        masterAudio.Play();
-    }
+        musicSource.Stop();
 
-    public void playAudioClip(int index)
-    {
-        masterAudio.PlayOneShot(audioClips[index]);
-    }
+        if (SceneManager.GetActiveScene().name.Contains("Menu"))
+        {
+            // Play main menu theme
+            musicSource.clip = mainMenuMusic;
+        }
+        else
+        {
+            // Play game theme
+            musicSource.clip = gameMusic[currentGameMusicIndex];
+        }
 
-    public void playAudioClip(AudioClip clip)
-    {
-        masterAudio.PlayOneShot(clip);
-    }
-
-    public void gameOverSound()
-    {
-        masterAudio.PlayOneShot(gameOver);
+        musicSource.Play();
     }
 }

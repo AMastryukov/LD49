@@ -13,8 +13,21 @@ public enum ETileState
 public class Tile : MonoBehaviour
 {
     public Canvas TileCanvas;
-    public ETileState tileState = ETileState.Neutral;
-    public ETileType tileType => data.TileType;
+
+    private ETileState _tileState = ETileState.Neutral;
+    public ETileState TileState
+    {
+        get
+        {
+            return _tileState;
+        }
+        set
+        {
+            _tileState = value;
+            UpdateCanvasVisibility();
+        }
+    }
+    public ETileType Type => data.TileType;
     public string Name => data.Name;
     public Pillars Pillars { get; set; }
 
@@ -32,6 +45,7 @@ public class Tile : MonoBehaviour
     public void Awake()
     {
         _masterAudio = FindObjectOfType<AudioManager>();
+
         Pillars = new Pillars();
 
         // A Gulag is a special case where all pillar values are random
@@ -61,13 +75,8 @@ public class Tile : MonoBehaviour
         culturePillarText.text = (Pillars.Culture > 0 ? "+" : "") + Pillars.Culture.ToString();
     }
 
-    public void PlayPlacedSound()
+    public void UpdateCanvasVisibility()
     {
-        _masterAudio.playAudioClip(placedSound);
-    }
-
-    public void PlayGrabbedSound()
-    {
-        _masterAudio.playAudioClip(grabbedSound);
+        TileCanvas.enabled = (TileState != ETileState.Placed);
     }
 }
