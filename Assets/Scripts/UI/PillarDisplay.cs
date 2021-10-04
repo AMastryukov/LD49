@@ -87,4 +87,20 @@ public class PillarDisplay : MonoBehaviour
 
         return neutral;
     }
+
+    public Color GetColorByName(string name)
+    {
+        if (name=="Positive")
+        {
+            return positive;
+        }
+        else if (name=="Negative")
+        {
+            return negative;
+        }
+
+        return neutral;
+    }
 }
+
+
