@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Barracks
   TileType: 0
-  Level: 1
   Military: 1
-  Economy: -1
+  Economy: -3
   Culture: 0

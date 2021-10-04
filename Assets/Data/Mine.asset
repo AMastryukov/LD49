@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Mine
   TileType: 1
-  Level: 2
   Military: 0
   Economy: 2
-  Culture: -2
+  Culture: -1
