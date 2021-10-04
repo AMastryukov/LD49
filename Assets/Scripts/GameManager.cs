@@ -7,18 +7,31 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     public enum GameState { InProgress, Defeat, Victory }
+    public enum GameOverState
+    {
+        Victory,
+        LowMilitary,
+        LowEconomy,
+        LowCulture,
+        ExcessMilitary,
+        ExcessEconomy,
+        ExcessCulture,
+        None
+    }
 
     public static Action OnGameSetup;
     public static Action OnTurnComplete;
+    public static Action OnGameOver;
     public static Action OnPillarDeltasUpdated;
 
     public GameState CurrentGameState = GameState.InProgress;
+    public GameOverState CurrentGameOverState = GameOverState.None;
     public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
     public Pillars PillarDeltas { get; set; }
     public int TurnUntilDecay { get; set; } = 2;
 
-    private bool _isEnabled = false;
+    private bool _isEnabled = true;
     public bool GameActive
     {
         get
@@ -32,7 +45,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private int winTurn = 25;
+    [SerializeField] private int winTurn = 24;
     [SerializeField] private int maximumPillar = 100;
     [SerializeField] private int minimumPillar = 0;
     [SerializeField] private List<Tile> tilePrefabs;
@@ -188,6 +201,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your military was too weak and you were overthrown by the people.");
 
+            CurrentGameOverState = GameOverState.LowMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -195,6 +209,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your military was too strong and you were overthrown in a military coup.");
 
+            CurrentGameOverState = GameOverState.ExcessMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -202,6 +217,7 @@ public class GameManager : MonoBehaviour
         {  
             Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
 
+            CurrentGameOverState = GameOverState.LowEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -209,6 +225,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
 
+            CurrentGameOverState = GameOverState.ExcessEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -216,6 +233,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your nation's lack of culture resulted in a loss of its identity. The nation split into numerous tribes that began to war with one another.");
 
+            CurrentGameOverState = GameOverState.LowCulture;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -223,6 +241,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your nation's culture . Long live the resistance!");
 
+            CurrentGameOverState = GameOverState.ExcessCulture;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -230,10 +249,10 @@ public class GameManager : MonoBehaviour
         {
             _tileTray.IsEnabled = false;
             GameActive = false;
-
+            
             _audioManager.PlaySound(AudioManager.Sounds.GameOver);
 
-            // TODO: Show defeat screen
+            OnGameOver?.Invoke();
         }
     }
 
@@ -244,7 +263,9 @@ public class GameManager : MonoBehaviour
             CurrentGameState = GameState.Victory;
             GameActive = false;
 
-            // TODO: Show victory screen
+            OnGameOver?.Invoke();
         }
     }
+
+
 }
