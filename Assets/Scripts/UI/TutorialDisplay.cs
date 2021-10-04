@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class TutorialDisplay : MonoBehaviour
 {
@@ -59,7 +60,11 @@ public class TutorialDisplay : MonoBehaviour
 
     public void NextPage()
     {
-        if (currentPage == tutorialPages.Count - 1) { return; }
+        if (currentPage == tutorialPages.Count - 1) 
+        {
+            CloseTutorial();
+            return; 
+        }
 
         HideAllPages();
 
@@ -80,6 +85,14 @@ public class TutorialDisplay : MonoBehaviour
     private void UpdateButtons()
     {
         previousButton.gameObject.SetActive(currentPage != 0);
-        nextButton.gameObject.SetActive(currentPage != tutorialPages.Count - 1);
+        if(currentPage==tutorialPages.Count - 1)
+        {
+            nextButton.gameObject.GetComponent<TextMeshProUGUI>().text = "Continue";
+        }
+        else
+        {
+            nextButton.gameObject.GetComponent<TextMeshProUGUI>().text = "Next";
+        }
+        
     }
 }

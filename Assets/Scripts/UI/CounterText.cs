@@ -42,11 +42,40 @@ public class CounterText : MonoBehaviour
             .OnUpdate(() =>
             {
                 Counter.text = prefix + currentValue.ToString();
-                if(int.Parse(Counter.text)<=((int)(gameManager.MaximumPillar*0.1))|| int.Parse(Counter.text) >= ((int)(gameManager.MaximumPillar * 0.9)))
-                {
-                    Counter.color = _pillarDisplay.GetColorByName("Negative");
-
-                }
             });
+    }
+    public void UpdateCounter(int value, bool affectColor, string prefix = "")
+    {
+        if(affectColor)
+        {
+            if (Counter == null) { return; }
+
+            currentTween.Kill();
+            currentTween = DOTween.To(() => currentValue, x => currentValue = x, value, movementTime)
+                .SetEase(movementEase)
+                .OnUpdate(() =>
+                {
+                    Counter.text = prefix + currentValue.ToString();
+                    if (int.Parse(Counter.text) <= ((int)(gameManager.MaximumPillar * 0.1)) || int.Parse(Counter.text) >= ((int)(gameManager.MaximumPillar * 0.9)))
+                    {
+                        Counter.color = _pillarDisplay.GetColorByName("Negative");
+
+                    }
+                });
+        }
+        else
+        {
+            if (Counter == null) { return; }
+
+            currentTween.Kill();
+            currentTween = DOTween.To(() => currentValue, x => currentValue = x, value, movementTime)
+                .SetEase(movementEase)
+                .OnUpdate(() =>
+                {
+                    Counter.text = prefix + currentValue.ToString();
+                });
+        }
+
+       
     }
 }
