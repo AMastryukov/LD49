@@ -56,7 +56,7 @@ public class CounterText : MonoBehaviour
                 .OnUpdate(() =>
                 {
                     Counter.text = prefix + currentValue.ToString();
-                    if (int.Parse(Counter.text) <= ((int)(gameManager.MaximumPillar * 0.1)) || int.Parse(Counter.text) >= ((int)(gameManager.MaximumPillar * 0.9)))
+                    if (int.Parse(Counter.text) <= ((int)(gameManager.MaximumPillar * gameManager.criticalThreshold)) || int.Parse(Counter.text) >= ((int)(gameManager.MaximumPillar * (1 - gameManager.criticalThreshold))))
                     {
                         Counter.color = _pillarDisplay.GetColorByName("Negative");
 

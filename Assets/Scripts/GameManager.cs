@@ -57,6 +57,29 @@ public class GameManager : MonoBehaviour
     private GridManager _gridManager;
     private TileTray _tileTray;
     private AudioManager _audioManager;
+    private DialogueManager _dialogueManager;
+
+    [SerializeField]
+    private DialogueData EconomyStrong;
+    private bool economyStrongPlayed = false;
+    [SerializeField]
+    private DialogueData EconomyWeak;
+    private bool economyWeakPlayed = false;
+    [SerializeField]
+    private DialogueData MilitaryStrong;
+    private bool militaryStrongPlayed = false;
+    [SerializeField]
+    private DialogueData MilitaryWeak;
+    private bool militaryWeakPlayed = false;
+    [SerializeField]
+    private DialogueData CultureStrong;
+    private bool cultureStrongPlayed = false;
+    [SerializeField]
+    private DialogueData CultureWeak;
+    private bool cultureWeakPlayed = false;
+
+    [SerializeField]
+    public float criticalThreshold { get; private set; } = 0.35f;
 
     private void Awake()
     {
@@ -66,6 +89,7 @@ public class GameManager : MonoBehaviour
         _gridManager = FindObjectOfType<GridManager>();
         _tileTray = FindObjectOfType<TileTray>();
         _audioManager = FindObjectOfType<AudioManager>();
+        _dialogueManager = FindObjectOfType<DialogueManager>();
 
         GridManager.OnTilePlacementConfirmed += ProcessTurn;
         TileTray.OnTilePlaced += PopulateTileTray;
@@ -147,7 +171,42 @@ public class GameManager : MonoBehaviour
         CurrentTurn++;
         TurnUntilDecay--;
 
+        CheckAdvisors();
+
         OnTurnComplete?.Invoke();
+    }
+
+    private void CheckAdvisors()
+    {
+        if(Pillars.Military < maximumPillar * criticalThreshold && !militaryWeakPlayed)
+        {
+            _dialogueManager.LoadDialogue(MilitaryWeak);
+            militaryWeakPlayed = true;
+        }
+        else if(Pillars.Military > maximumPillar * (1 - criticalThreshold) && !militaryStrongPlayed)
+        {
+            _dialogueManager.LoadDialogue(MilitaryStrong);
+            militaryStrongPlayed = true;
+        }else if(Pillars.Culture < maximumPillar * criticalThreshold && !cultureWeakPlayed)
+        {
+            _dialogueManager.LoadDialogue(CultureWeak);
+            cultureWeakPlayed = true;
+        }
+        else if (Pillars.Culture > maximumPillar * (1 - criticalThreshold) && !cultureStrongPlayed)
+        {
+            _dialogueManager.LoadDialogue(CultureStrong);
+            cultureStrongPlayed = true;
+        }
+        else if (Pillars.Economy < maximumPillar * criticalThreshold && !economyWeakPlayed)
+        {
+            _dialogueManager.LoadDialogue(EconomyWeak);
+            economyWeakPlayed = true;
+        }
+        else if (Pillars.Economy > maximumPillar * (1 - criticalThreshold) && !economyStrongPlayed)
+        {
+            _dialogueManager.LoadDialogue(EconomyStrong);
+            economyStrongPlayed = true;
+        }
     }
 
     private void DecayTiles()
