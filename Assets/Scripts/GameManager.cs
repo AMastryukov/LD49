@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
         GridManager.OnTilePlacementConfirmed += ProcessTurn;
         TileTray.OnTilePlaced += PopulateTileTray;
+        TileTray.OnTilePlaced += UpdatePillarDeltaValues;
         TileTray.OnTileGrabbed += UpdatePillarDeltaValues;
         TileTray.OnTileReleased += UpdatePillarDeltaValues;
     }
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
     {
         GridManager.OnTilePlacementConfirmed -= ProcessTurn;
         TileTray.OnTilePlaced -= PopulateTileTray;
+        TileTray.OnTilePlaced -= UpdatePillarDeltaValues;
         TileTray.OnTileGrabbed -= UpdatePillarDeltaValues;
         TileTray.OnTileReleased -= UpdatePillarDeltaValues;
     }

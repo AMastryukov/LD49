@@ -32,10 +32,6 @@ public class PillarDisplay : MonoBehaviour
         GameManager.OnGameSetup += SetDeltaTexts;
         GameManager.OnTurnComplete += UpdatePillarTexts;
         GameManager.OnPillarDeltasUpdated += UpdateDeltaTexts;
-
-        militaryDeltaText.Counter.color = neutral;
-        economyDeltaText.Counter.color = neutral;
-        cultureDeltaText.Counter.color = neutral;
     }
 
     private void OnDestroy()

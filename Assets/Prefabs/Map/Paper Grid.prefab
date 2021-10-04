@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 909f0a0c42a65d74cab34167e152e86d, type: 2}
     - target: {fileID: 9168041359103047618, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: m_Name
-      value: GridManager
+      value: Paper Grid
       objectReference: {fileID: 0}
     - target: {fileID: 9168041359103047620, guid: 569f093e60810944184d2c6a23ffc7c2, type: 3}
       propertyPath: m_RootOrder

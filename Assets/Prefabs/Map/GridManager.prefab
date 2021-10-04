@@ -144,7 +144,19 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   gridSpacing: 1.7
   snapRange: 1
+  tilePrefabs:
+  - {fileID: 8664118289914058099, guid: f71338c3347b1bc42a73d29574fa9b3e, type: 3}
+  - {fileID: 5545191899972554255, guid: 0a4d8efb19038594cbd822b5cbc4d2d4, type: 3}
+  - {fileID: 4445343722942820365, guid: 899236089c3e6ca41949f03514b58335, type: 3}
+  - {fileID: 7583361813942805190, guid: 635feb60111dab34783a5ff35d8744dc, type: 3}
+  - {fileID: 1433846879484527003, guid: 80aa7b42ff5b767449ed733436b424a5, type: 3}
+  - {fileID: 5845935154517231637, guid: 80ca1aad04630d5499bc181819fcf959, type: 3}
+  - {fileID: 1276592560112877856, guid: 945cf1b63c8634d49b182f3c536f7025, type: 3}
+  - {fileID: 413921036768524617, guid: 4b2d0aac5c5ba054eadc2feab8e04058, type: 3}
+  - {fileID: 5158895845328284591, guid: 9754db58892e58f478a7691920ff9751, type: 3}
+  - {fileID: 1239163359743677340, guid: 41dd778f9f023744a9133d99cd0cb70f, type: 3}
   previewTilePrefab: {fileID: 7422396117808681851, guid: be367e882456fe54bb6e6bd44b75e811, type: 3}
+  restrictedTilePrefab: {fileID: 3387802283833206837, guid: 1697049ac039084448300c6489b91c72, type: 3}
 --- !u!65 &6752609992955977822
 BoxCollider:
   m_ObjectHideFlags: 0
