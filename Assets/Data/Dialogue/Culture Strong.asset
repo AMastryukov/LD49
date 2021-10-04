@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Culture Strong
   m_EditorClassIdentifier: 
   sentences:
-  - You are doing good for the culture.
+  - Great leader, Fyodor Dostoevsky just finished his seminal novel Crime and Punishment,
+    surging our culture into the global arena.
   advisor: 2
