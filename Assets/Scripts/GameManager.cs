@@ -59,27 +59,26 @@ public class GameManager : MonoBehaviour
     private AudioManager _audioManager;
     private DialogueManager _dialogueManager;
 
-    [SerializeField]
-    private DialogueData EconomyStrong;
+    [SerializeField] private DialogueData EconomyStrong;
     private bool economyStrongPlayed = false;
-    [SerializeField]
-    private DialogueData EconomyWeak;
+
+    [SerializeField] private DialogueData EconomyWeak;
     private bool economyWeakPlayed = false;
-    [SerializeField]
-    private DialogueData MilitaryStrong;
+
+    [SerializeField] private DialogueData MilitaryStrong;
     private bool militaryStrongPlayed = false;
-    [SerializeField]
-    private DialogueData MilitaryWeak;
+
+    [SerializeField] private DialogueData MilitaryWeak;
     private bool militaryWeakPlayed = false;
-    [SerializeField]
-    private DialogueData CultureStrong;
+
+    [SerializeField] private DialogueData CultureStrong;
     private bool cultureStrongPlayed = false;
-    [SerializeField]
-    private DialogueData CultureWeak;
+
+    [SerializeField] private DialogueData CultureWeak;
     private bool cultureWeakPlayed = false;
 
     [SerializeField]
-    public float criticalThreshold { get; private set; } = 0.35f;
+    public float criticalThreshold { get; private set; } = 0.25f;
 
     private void Awake()
     {
@@ -329,12 +328,15 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentTurn >= winTurn && CurrentGameState == GameState.InProgress)
         {
+            CurrentGameOverState = GameOverState.Victory;
             CurrentGameState = GameState.Victory;
+
             GameActive = false;
+
+            _audioManager.StopMusic();
+            _audioManager.PlaySound(AudioManager.Sounds.GameOver);
 
             OnGameOver?.Invoke();
         }
     }
-
-
 }
