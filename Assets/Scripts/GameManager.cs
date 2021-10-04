@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour
     {
         if (TurnUntilDecay == 0)
         {
-            var tiles = _gridManager.GetTiles().Where(t => t.Type != ETileType.None && t != _gridManager.LastTilePlaced);
+            var tiles = _gridManager.GetTiles().Where(t => t.Type != ETileType.None && t != _gridManager.LastTilePlaced && t.Type != ETileType.Rubble);
             var randomTile = tiles.ElementAt(UnityEngine.Random.Range(0, tiles.Count()));
 
             if (randomTile != null) 
