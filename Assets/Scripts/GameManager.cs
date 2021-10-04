@@ -9,10 +9,12 @@ public class GameManager : MonoBehaviour
 
     public static Action OnGameSetup;
     public static Action OnTurnComplete;
+    public static Action OnPillarDeltasUpdated;
 
     public GameState CurrentGameState = GameState.InProgress;
     public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
+    public Pillars PillarDeltas { get; set; }
 
     private bool _isEnabled = false;
     public bool GameActive
@@ -40,18 +42,24 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Pillars = new Pillars();
+        PillarDeltas = new Pillars();
+
         _gridManager = FindObjectOfType<GridManager>();
         _tileTray = FindObjectOfType<TileTray>();
         _masterAudio = FindObjectOfType<AudioManager>();
 
         GridManager.OnTilePlacementConfirmed += ProcessTurn;
         TileTray.OnTilePlaced += PopulateTileTray;
+        TileTray.OnTileGrabbed += UpdatePillarDeltaValues;
+        TileTray.OnTileReleased += UpdatePillarDeltaValues;
     }
 
     private void OnDestroy()
     {
         GridManager.OnTilePlacementConfirmed -= ProcessTurn;
         TileTray.OnTilePlaced -= PopulateTileTray;
+        TileTray.OnTileGrabbed -= UpdatePillarDeltaValues;
+        TileTray.OnTileReleased -= UpdatePillarDeltaValues;
     }
 
     private void Start()
@@ -63,7 +71,10 @@ public class GameManager : MonoBehaviour
     {
         PlaceStartingTile();
         PopulateTileTray();
+
         ResetPillars();
+        UpdatePillarDeltaValues();
+        UpdatePillarValues();
 
         _tileTray.IsEnabled = true;
 
@@ -116,16 +127,27 @@ public class GameManager : MonoBehaviour
         OnTurnComplete?.Invoke();
     }
 
-    private void UpdatePillarValues()
+    private void UpdatePillarDeltaValues()
     {
-        Pillars deltaPillars = new Pillars();
+        PillarDeltas = new Pillars();
 
         foreach (Tile tile in _gridManager.GetTiles())
         {
-            deltaPillars += tile.Pillars;
+            PillarDeltas += tile.Pillars;
         }
 
-        Pillars += deltaPillars;
+        // Sum the currently held tile as well
+        if (_tileTray.GrabbedTile != null)
+        {
+            PillarDeltas += _tileTray.GrabbedTile.Pillars;
+        }
+
+        OnPillarDeltasUpdated?.Invoke();
+    }
+
+    private void UpdatePillarValues()
+    {
+        Pillars += PillarDeltas;
     }
 
     private void CheckLoseConditions()
