@@ -15,13 +15,15 @@ public class AudioManager : MonoBehaviour
         GameOver
     }
 
+    public float CurrentMusicVolume => musicSource.volume;
+    public float CurrentEffectsVolume => effectsSource.volume;
+
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource effectsSource;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip buttonHover;
     [SerializeField] private AudioClip buttonClick;
-    [SerializeField] private AudioClip tileGrab;
     [SerializeField] private AudioClip tilePlace;
     [SerializeField] private AudioClip tileDestroy;
     [SerializeField] private AudioClip typewriter;
@@ -103,5 +105,15 @@ public class AudioManager : MonoBehaviour
         }
 
         musicSource.Play();
+    }
+
+    public void UpdateMusicVolume(float newVolume)
+    {
+        musicSource.volume = newVolume;
+    }
+
+    public void UpdateEffectsVolume(float newVolume)
+    {
+        effectsSource.volume = newVolume;
     }
 }
