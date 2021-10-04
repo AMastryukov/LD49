@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 
@@ -19,15 +19,7 @@ public class MainMenuDisplay : MonoBehaviour
     {
         _originalMenuPositions = new List<Vector3>();
         _originalAdvisorPositions = new List<Vector3>();
-    }
 
-    private void Start()
-    {
-        StartCoroutine(SlideCoroutine());
-    }
-
-    private IEnumerator SlideCoroutine()
-    {
         #region Reset Positions
         foreach (var transform in menuItems)
         {
@@ -41,7 +33,29 @@ public class MainMenuDisplay : MonoBehaviour
             transform.position += Vector3.right * _distance;
         }
         #endregion
+    }
 
+    private void OnDestroy()
+    {
+        for (int i = 0; i < advisors.Count; i++)
+        {
+            advisors[i].transform.DOKill();
+        }
+
+        for (int i = 0; i < menuItems.Count; i++)
+        {
+            menuItems[i].transform.DOKill();
+        }
+    }
+
+    private void Start()
+    {
+        Time.timeScale = 1f;
+        StartCoroutine(SlideCoroutine());
+    }
+
+    private IEnumerator SlideCoroutine()
+    {
         for (int i = 0; i < advisors.Count; i++)
         {
             advisors[i].transform.DOMove(_originalAdvisorPositions[i], 2f).SetEase(Ease.OutExpo);

@@ -23,7 +23,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = _isPaused ? 1f : 0f;
         _isPaused = !_isPaused;
 
-
         pauseMenuCanvas.enabled = _isPaused;
         mainPauseMenu.enabled = _isPaused;
         settingsMenu.enabled = false;
