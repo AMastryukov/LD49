@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Military Weak
   m_EditorClassIdentifier: 
   sentences:
-  - You are doing bad for the military.
+  - Our borders are being enroached by enemy nations, my soldiers are showing up
+    drunk, and I've run out of ammo. Sire, our military needs dire attention!
   advisor: 0

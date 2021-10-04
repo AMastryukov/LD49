@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Economy Weak
   m_EditorClassIdentifier: 
   sentences:
-  - You are doing bad for the economy.
+  - Inflation has taken hold of our dear capital. I strongly urge investing in the
+    economy, lest we face a Great Depression.
   advisor: 1

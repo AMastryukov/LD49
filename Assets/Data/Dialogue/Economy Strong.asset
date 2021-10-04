@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Economy Strong
   m_EditorClassIdentifier: 
   sentences:
-  - You are doing good for the economy.
+  - Your friends' pockets are overflowing with coins and banks everywhere are flourishing.
+    Our economy is on the rise!
   advisor: 1

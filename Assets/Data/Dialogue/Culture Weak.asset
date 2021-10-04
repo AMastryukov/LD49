@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Culture Weak
   m_EditorClassIdentifier: 
   sentences:
-  - You are doing bad for the culture.
+  - Your statues are being toppled all over the country! Make haste and improve our
+    cultural identity.
   advisor: 2
