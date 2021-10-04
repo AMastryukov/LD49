@@ -81,7 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1922410552699491873, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: -1.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 1922410552699491873, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: 2241946421287468433, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
@@ -94,6 +98,10 @@ PrefabInstance:
     - target: {fileID: 2358139880683017081, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784313219481551089, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: 3864102017164001083, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
@@ -123,13 +131,21 @@ PrefabInstance:
       propertyPath: moveCameraOnClick
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4838919076317811522, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.75
+      objectReference: {fileID: 0}
     - target: {fileID: 5311589588228772307, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6172768941873765304, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 1.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6172768941873765304, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: 6223875891141064978, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Layer
@@ -173,7 +189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001987, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_Name
-      value: PostProcess Camera
+      value: Post Process Camera
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001987, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_IsActive
@@ -189,31 +205,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.76
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.6
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9225577
+      value: 0.92387956
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.38585916
+      value: 0.38268343
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 45.394
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 9050338079965001990, guid: ea5d3adb70b02614d9942cf1ea701ebc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
