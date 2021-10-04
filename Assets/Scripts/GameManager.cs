@@ -150,10 +150,10 @@ public class GameManager : MonoBehaviour
     {
         if (TurnUntilDecay == 0)
         {
-            var tiles = _gridManager.GetTiles().Where(t => t.Type != ETileType.None);
+            var tiles = _gridManager.GetTiles().Where(t => t.Type != ETileType.None && t != _gridManager.LastTilePlaced);
             var randomTile = tiles.ElementAt(UnityEngine.Random.Range(0, tiles.Count()));
 
-            if (randomTile != null && randomTile != _gridManager.LastTilePlaced) 
+            if (randomTile != null) 
             {
                 // Replace tile with empty land
                 var newTilePrefab = tilePrefabs.Where(t => t.Type == ETileType.None).FirstOrDefault();
@@ -164,9 +164,13 @@ public class GameManager : MonoBehaviour
                 newTile.Pillars.Culture = 0;
 
                 _gridManager.ReplaceTile(randomTile, newTile);
-            }
 
-            TurnUntilDecay = 3;
+                TurnUntilDecay = 3;
+            }
+            else
+            {
+                TurnUntilDecay = 0;
+            }
         }
     }
 
