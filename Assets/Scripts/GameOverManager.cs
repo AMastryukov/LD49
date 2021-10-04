@@ -8,6 +8,7 @@ public class GameOverManager : MonoBehaviour
     [SerializeField] private Canvas gameOverCanvas;
     [SerializeField] private TextMeshProUGUI gameStateTitle;
     [SerializeField] private TextMeshProUGUI gameStateDescription;
+    [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private DialogueData[] gameOverDialogues;
 
     private GameManager _gameManager;
@@ -30,10 +31,12 @@ public class GameOverManager : MonoBehaviour
         if (_gameManager.CurrentGameState == GameManager.GameState.Victory)
         {
             gameStateTitle.text = "VICTORY";
+            scoreText.text = "";
         }
         else
         {
             gameStateTitle.text = "DEFEAT";
+            scoreText.text = "Months Survived: " + _gameManager.CurrentTurn.ToString();
         }
 
         // Display advice over lose or win condition
