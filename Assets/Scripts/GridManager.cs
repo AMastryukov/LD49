@@ -28,6 +28,10 @@ public struct Hex
 public class GridManager : MonoBehaviour
 {
     public static Action OnTilePlacementConfirmed;
+    public static Action OnTileEnterHex;
+    public static Action OnTileLeaveHex;
+
+    public bool IsTileHoveringAboveValidHex = false;
 
     [SerializeField] private Camera mainCamera;
     [SerializeField] private float gridSpacing = 1.5f;
@@ -45,6 +49,7 @@ public class GridManager : MonoBehaviour
 
     private GameObject previewTile;
     private List<GameObject> restrictedTiles;
+    private TileTray _tileTray;
 
     /// <summary>
     /// Getall the tile that have been placed on the grid.
@@ -58,12 +63,15 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
-        if(mainCamera == null){
+        if(mainCamera == null)
+        {
             Debug.LogError("Missing main camera reference");
         }
+
         gridOccupancy = new Dictionary<Hex, Tile>();
         //gridRestrictions = new Dictionary<Hex, string>();
         restrictedTiles = new List<GameObject>();
+        _tileTray = FindObjectOfType<TileTray>();
     }
 
     public Vector3 HexToPoint(Hex hex)
@@ -76,12 +84,12 @@ public class GridManager : MonoBehaviour
 
     public bool isValidPlacement(Hex hex, Tile tile)
     {
-
         // Check logic here
         List<Tile> neighbors = GetNeighbors(hex);
-        foreach(Tile tile_n in neighbors)
+
+        foreach (Tile tile_n in neighbors)
         {
-            if(tile_n.Name == tile.Name)
+            if (tile_n.Name == tile.Name)
             {
                 return false;
             }
@@ -122,7 +130,7 @@ public class GridManager : MonoBehaviour
     {
         EndVisualizeRestrictions();
 
-        if(tile == null)
+        if (tile == null)
         {
             foreach (Hex spot in GetAllValidSpots())
             {
@@ -136,6 +144,7 @@ public class GridManager : MonoBehaviour
             foreach (Hex spot in GetAllValidSpots())
             {
                 GameObject newHex;
+
                 if (isValidPlacement(spot, tile))
                 {
                     newHex = Instantiate(previewTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
@@ -144,6 +153,7 @@ public class GridManager : MonoBehaviour
                 {
                     newHex = Instantiate(restrictedTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
                 }
+
                 restrictedTiles.Add(newHex);
             }
         }
@@ -179,7 +189,7 @@ public class GridManager : MonoBehaviour
 
             tileObject.transform.SetParent(transform, true);
 
-            tileObject.transform.DORotate(new Vector3(0, 60 * UnityEngine.Random.Range(6, 11), 0), 0.1f);
+            tileObject.transform.DORotate(new Vector3(0, 60 * UnityEngine.Random.Range(6, 11), 0), 0.25f).SetEase(Ease.OutCirc);
             tileObject.transform.DOMove(HexToPoint(hex) + Vector3.up * 0.75f, 0.1f).SetEase(Ease.OutQuad)
                 .OnComplete(()=>
                 {
@@ -403,19 +413,21 @@ public class GridManager : MonoBehaviour
         RaycastHit rayHit;
         
         if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out rayHit, Mathf.Infinity, LayerMask.GetMask("Grid"), QueryTriggerInteraction.Collide))
-        {
-
-            if (previewTile == null)
-            {
-                previewTile = Instantiate(previewTilePrefab, rayHit.point, Quaternion.identity, transform);
-            }
-            
+        {            
             Hex hex = ClosestValidHex(rayHit.point);
             Vector3 newPos = HexToPoint(hex);
 
             if (Vector3.Distance(rayHit.point, newPos) < snapRange)
             {
-                previewTile.transform.position = newPos;
+                if (previewTile == null)
+                {
+                    IsTileHoveringAboveValidHex = isValidPlacement(hex, _tileTray.GrabbedTile);
+
+                    previewTile = Instantiate(previewTilePrefab, rayHit.point, Quaternion.identity, transform);
+                    previewTile.transform.position = newPos;
+
+                    OnTileEnterHex?.Invoke();
+                }
             }
             else
             {
@@ -432,8 +444,12 @@ public class GridManager : MonoBehaviour
     {
         if (previewTile != null)
         {
+            IsTileHoveringAboveValidHex = false;
+
             Destroy(previewTile);
             previewTile = null;
+
+            OnTileLeaveHex?.Invoke();
         }
     }
 }

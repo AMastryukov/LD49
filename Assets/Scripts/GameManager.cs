@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour
         GridManager.OnTilePlacementConfirmed += ProcessTurn;
         TileTray.OnTilePlaced += PopulateTileTray;
         TileTray.OnTilePlaced += UpdatePillarDeltaValues;
-        TileTray.OnTileGrabbed += UpdatePillarDeltaValues;
-        TileTray.OnTileReleased += UpdatePillarDeltaValues;
+        GridManager.OnTileEnterHex += UpdatePillarDeltaValues;
+        GridManager.OnTileLeaveHex += UpdatePillarDeltaValues;
     }
 
     private void OnDestroy()
@@ -60,8 +60,8 @@ public class GameManager : MonoBehaviour
         GridManager.OnTilePlacementConfirmed -= ProcessTurn;
         TileTray.OnTilePlaced -= PopulateTileTray;
         TileTray.OnTilePlaced -= UpdatePillarDeltaValues;
-        TileTray.OnTileGrabbed -= UpdatePillarDeltaValues;
-        TileTray.OnTileReleased -= UpdatePillarDeltaValues;
+        GridManager.OnTileEnterHex -= UpdatePillarDeltaValues;
+        GridManager.OnTileLeaveHex -= UpdatePillarDeltaValues;
     }
 
     private void Start()
@@ -139,7 +139,9 @@ public class GameManager : MonoBehaviour
         }
 
         // Sum the currently held tile as well
-        if (_tileTray.GrabbedTile != null && !string.IsNullOrEmpty(_tileTray.GrabbedTile.Name))
+        if (_tileTray.GrabbedTile != null && 
+            !string.IsNullOrEmpty(_tileTray.GrabbedTile.Name) &&
+            _gridManager.IsTileHoveringAboveValidHex)
         {
             PillarDeltas += _tileTray.GrabbedTile.Pillars;
         }

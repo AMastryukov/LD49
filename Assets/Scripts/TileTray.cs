@@ -99,6 +99,7 @@ public class TileTray : MonoBehaviour
             }
 
             grabbedTile = hitTile;
+
             hitTile.tileState = ETileState.Grabbed;
             hitTile.PlayGrabbedSound();
         }
@@ -107,6 +108,7 @@ public class TileTray : MonoBehaviour
         grabbedTile?.transform.DOScale(Vector3.one * 1f, 0.25f).SetEase(Ease.OutQuad);
 
         OnTileGrabbed?.Invoke();
+
         _gridManager.VisualizeRestrictions(grabbedTile);
 
         return true;

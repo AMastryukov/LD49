@@ -8,9 +8,10 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource masterAudio;
     [SerializeField] private AudioClip[] audioClips;
     [SerializeField] private AudioClip[] gameMusic;
+    [SerializeField] private AudioClip mainMenuMusic;
     [SerializeField] private AudioClip gameOver;
 
-    private int currentClipIndex = 0;
+    private int currentGameMusicIndex = 0;
 
     private void Awake()
     {
@@ -20,7 +21,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         // Get random game music
-        currentClipIndex = Random.Range(0, gameMusic.Length);
+        currentGameMusicIndex = Random.Range(0, gameMusic.Length);
         PlayCurrentMusic();
     }
 
@@ -29,20 +30,33 @@ public class AudioManager : MonoBehaviour
         if (!masterAudio.isPlaying)
         {
             // This is dumb but we only have two music clips so fuck off
-            if (currentClipIndex == 0)
+            if (currentGameMusicIndex == 0)
             {
-                currentClipIndex = 1;
+                currentGameMusicIndex = 1;
                 return;
             }
             
-            currentClipIndex = 0;
+            currentGameMusicIndex = 0;
+
+            PlayCurrentMusic();
         }
     }
 
     private void PlayCurrentMusic()
     {
         masterAudio.Stop();
-        masterAudio.clip = gameMusic[currentClipIndex];
+
+        if (SceneManager.GetActiveScene().name.Contains("Menu"))
+        {
+            // Play main menu theme
+            masterAudio.clip = mainMenuMusic;
+        }
+        else
+        {
+            // Play game theme
+            masterAudio.clip = gameMusic[currentGameMusicIndex];
+        }
+
         masterAudio.Play();
     }
 

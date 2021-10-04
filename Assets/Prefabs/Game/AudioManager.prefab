@@ -56,6 +56,7 @@ MonoBehaviour:
   gameMusic:
   - {fileID: 8300000, guid: d689c30b12ebf33479969949d022485a, type: 3}
   - {fileID: 8300000, guid: f31a39dba21e9a54fa4f722f6c3f36fa, type: 3}
+  mainMenuMusic: {fileID: 8300000, guid: 0ea769aa2626a524da142194cb654021, type: 3}
   gameOver: {fileID: 8300000, guid: a1dd1957ea8281f4ca7e0b79d76fe575, type: 3}
 --- !u!82 &7172479006815130558
 AudioSource:
