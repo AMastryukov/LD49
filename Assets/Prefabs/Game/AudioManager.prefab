@@ -305,6 +305,7 @@ MonoBehaviour:
   buttonClick: {fileID: 8300000, guid: 66868ccc7808b2a41b64af31a2cf0283, type: 3}
   tileGrab: {fileID: 8300000, guid: b944d734785578f48a0b6d8acf1d28e6, type: 3}
   tilePlace: {fileID: 8300000, guid: 4adabd45226e43644a4bbe8e8e3d5dd0, type: 3}
+  tileDestroy: {fileID: 8300000, guid: 64a592278eeb7a04da43836d37864f73, type: 3}
   typewriter: {fileID: 8300000, guid: 975b09064e8ce584c8bb843ca47c4dd4, type: 3}
   gameOver: {fileID: 8300000, guid: a1dd1957ea8281f4ca7e0b79d76fe575, type: 3}
   gameMusic:
