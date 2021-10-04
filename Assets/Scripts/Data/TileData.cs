@@ -7,6 +7,7 @@ public enum ETileType
     Military,
     Economy,
     Culture,
+    Rubble,
     None
 }
 

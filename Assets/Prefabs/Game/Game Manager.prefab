@@ -59,6 +59,7 @@ MonoBehaviour:
   - {fileID: 413921036768524617, guid: 4b2d0aac5c5ba054eadc2feab8e04058, type: 3}
   - {fileID: 5158895845328284591, guid: 9754db58892e58f478a7691920ff9751, type: 3}
   - {fileID: 1239163359743677340, guid: 41dd778f9f023744a9133d99cd0cb70f, type: 3}
+  rubbleTile: {fileID: 765189129826033848, guid: ed80fee61e4c2e248bcfee1cfd7a04aa, type: 3}
   EconomyStrong: {fileID: 11400000, guid: 2efe598dffe5bf142821065015c73e4f, type: 2}
   EconomyWeak: {fileID: 11400000, guid: ee49029360891b74faaf7421b49fe8c2, type: 2}
   MilitaryStrong: {fileID: 11400000, guid: 5081c32d71b86be4398aa7e762385f86, type: 2}

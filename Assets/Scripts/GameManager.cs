@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public int MinimumPillar => minimumPillar;
 
     [SerializeField] private List<Tile> tilePrefabs;
+    [SerializeField] private Tile rubbleTile;
 
     private GridManager _gridManager;
     private TileTray _tileTray;
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour
     private bool cultureWeakPlayed = false;
 
     [SerializeField]
-    public float criticalThreshold { get; private set; } = 0.35f;
+    public float criticalThreshold { get; private set; } = 0.3f;
 
     private void Awake()
     {
@@ -219,8 +220,7 @@ public class GameManager : MonoBehaviour
             if (randomTile != null) 
             {
                 // Replace tile with empty land
-                var newTilePrefab = tilePrefabs.Where(t => t.Type == ETileType.None).FirstOrDefault();
-                var newTile = Instantiate(newTilePrefab);
+                var newTile = Instantiate(rubbleTile);
 
                 newTile.Pillars.Military = 0;
                 newTile.Pillars.Economy = 0;
