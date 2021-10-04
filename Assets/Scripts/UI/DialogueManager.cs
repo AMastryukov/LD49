@@ -32,7 +32,8 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(ShowTestDialogue());
+        // Testing purposes
+        // StartCoroutine(ShowTestDialogue());
     }
 
     private IEnumerator ShowTestDialogue()

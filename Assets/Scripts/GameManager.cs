@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public Pillars PillarDeltas { get; set; }
     public int TurnUntilDecay { get; set; } = 2;
 
-    private bool _isEnabled = false;
+    private bool _isEnabled = true;
     public bool GameActive
     {
         get
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private int winTurn = 25;
+    [SerializeField] private int winTurn = 24;
     [SerializeField] private int maximumPillar = 100;
     [SerializeField] private int minimumPillar = 0;
     [SerializeField] private List<Tile> tilePrefabs;
