@@ -107,6 +107,7 @@ public class TileTray : MonoBehaviour
         grabbedTile?.transform.DOScale(Vector3.one * 1f, 0.25f).SetEase(Ease.OutQuad);
 
         OnTileGrabbed?.Invoke();
+        _gridManager.VisualizeRestrictions(grabbedTile);
 
         return true;
     }
@@ -144,6 +145,7 @@ public class TileTray : MonoBehaviour
             UpdateTilePositions(0.5f);
 
             OnTileReleased?.Invoke();
+            _gridManager.VisualizeRestrictions();
 
             return true;
         }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Mine
   m_EditorClassIdentifier: 
   Name: Mine
+  TileType: 1
   Military: 0
   Economy: 2
   Culture: -2

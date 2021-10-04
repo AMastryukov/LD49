@@ -14,6 +14,7 @@ public class Tile : MonoBehaviour
 {
     public Canvas TileCanvas;
     public ETileState tileState = ETileState.Neutral;
+    public ETileType tileType => data.TileType;
     public string Name => data.Name;
     public Pillars Pillars { get; set; }
 

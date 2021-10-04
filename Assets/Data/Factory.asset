@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Factory
   m_EditorClassIdentifier: 
   Name: Factory
+  TileType: 1
   Military: 0
   Economy: 3
   Culture: -3

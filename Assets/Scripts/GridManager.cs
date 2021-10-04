@@ -37,7 +37,7 @@ public class GridManager : MonoBehaviour
 
     [SerializeField]
     private List<Tile> tilePrefabs;
-    private Dictionary<Hex, string> gridRestrictions;
+    //private Dictionary<Hex, string> gridRestrictions;
 
     [SerializeField] private GameObject previewTilePrefab;
     [SerializeField] private GameObject restrictedTilePrefab;
@@ -61,7 +61,7 @@ public class GridManager : MonoBehaviour
             Debug.LogError("Missing main camera reference");
         }
         gridOccupancy = new Dictionary<Hex, Tile>();
-        gridRestrictions = new Dictionary<Hex, string>();
+        //gridRestrictions = new Dictionary<Hex, string>();
         restrictedTiles = new List<GameObject>();
     }
 
@@ -73,39 +73,81 @@ public class GridManager : MonoBehaviour
         return (hex.q * zVec) + (hex.r * xVec);
     }
 
-    public void UpdateRestrictions(Hex hex, Tile tile)
+    public bool isValidPlacement(Hex hex, Tile tile)
     {
-        //First clear the restriction on this hex
-        if(gridRestrictions.ContainsKey(hex)) gridRestrictions.Remove(hex);
 
-        //check neighbors and add random restrictions for them if they arent already restricted
-        List<Hex> neighbors = GetNeighborsHex(hex);
-        foreach(Hex n in neighbors)
+        // Check logic here
+        List<Tile> neighbors = GetNeighbors(hex);
+        foreach(Tile tile_n in neighbors)
         {
-            if (isEmptySpot(n) && !gridRestrictions.ContainsKey(n))
+            if(tile_n.Name == tile.Name)
             {
-                gridRestrictions.Add(n, tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)].Name);
+                return false;
             }
         }
 
-        VisualizeRestrictions();
+        return true;
     }
 
-    public void VisualizeRestrictions()
+    //public void UpdateRestrictions(Hex hex, Tile tile)
+    //{
+    //    //First clear the restriction on this hex
+    //    if(gridRestrictions.ContainsKey(hex)) gridRestrictions.Remove(hex);
+
+    //    //check neighbors and add random restrictions for them if they arent already restricted
+    //    List<Hex> neighbors = GetNeighborsHex(hex);
+    //    foreach(Hex n in neighbors)
+    //    {
+    //        if (isEmptySpot(n) && !gridRestrictions.ContainsKey(n))
+    //        {
+    //            gridRestrictions.Add(n, tilePrefabs[UnityEngine.Random.Range(0, tilePrefabs.Count)].Name);
+    //        }
+    //    }
+
+    //    VisualizeRestrictions();
+    //}
+
+    public void EndVisualizeRestrictions()
     {
-        foreach(GameObject tile in restrictedTiles)
+        foreach (GameObject obj in restrictedTiles)
         {
-            Destroy(tile);
+            Destroy(obj);
         }
 
         restrictedTiles.Clear();
+    }
 
-        foreach (Hex hex in gridRestrictions.Keys)
+    public void VisualizeRestrictions(Tile tile = null)
+    {
+        EndVisualizeRestrictions();
+
+        if(tile == null)
         {
-            GameObject newHex = Instantiate(restrictedTilePrefab, HexToPoint(hex), Quaternion.identity, transform);
-            newHex.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = gridRestrictions[hex];
-            restrictedTiles.Add(newHex);
+            foreach (Hex spot in GetAllValidSpots())
+            {
+                GameObject newHex = Instantiate(previewTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
+                //newHex.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = gridRestrictions[hex];
+                restrictedTiles.Add(newHex);
+            }
         }
+        else
+        {
+            foreach (Hex spot in GetAllValidSpots())
+            {
+                GameObject newHex;
+                if (isValidPlacement(spot, tile))
+                {
+                    newHex = Instantiate(previewTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
+                }
+                else
+                {
+                    newHex = Instantiate(restrictedTilePrefab, HexToPoint(spot), Quaternion.identity, transform);
+                }
+                restrictedTiles.Add(newHex);
+            }
+        }
+
+        
     }
 
     /// <summary>
@@ -119,7 +161,6 @@ public class GridManager : MonoBehaviour
     /// <param name="hex">hexagonal coordinate</param>
     public bool RegisterAndPlaceTile(Tile tileObject, Hex hex, bool silent = false)
     {
-        string tileName;
         if (gridOccupancy.ContainsKey(hex))
         {
             Debug.LogError("A tile already exists here");
@@ -127,7 +168,7 @@ public class GridManager : MonoBehaviour
         }
         else
         {
-            if (tileObject.Name != "" && gridRestrictions.TryGetValue(hex, out tileName) && tileName != "" && tileName != tileObject.Name)
+            if (!isValidPlacement(hex, tileObject))
             {
                 // This could be sketch because the game manager doesn't know these values are changing
                 tileObject.Pillars.Culture = 0;
@@ -160,7 +201,8 @@ public class GridManager : MonoBehaviour
             }
 
             EndPreview();
-            UpdateRestrictions(hex, tileObject);
+            VisualizeRestrictions(null);
+            //UpdateRestrictions(hex, tileObject);
         }
 
         return true;
