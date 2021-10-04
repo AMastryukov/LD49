@@ -51,9 +51,9 @@ public class PillarDisplay : MonoBehaviour
 
     private void UpdatePillarTexts()
     {
-        militaryText.UpdateCounter(_gameManager.Pillars.Military);
-        economyText.UpdateCounter(_gameManager.Pillars.Economy);
-        cultureText.UpdateCounter(_gameManager.Pillars.Culture);
+        militaryText.UpdateCounter(_gameManager.Pillars.Military,true);
+        economyText.UpdateCounter(_gameManager.Pillars.Economy,true);
+        cultureText.UpdateCounter(_gameManager.Pillars.Culture,true);
     }
 
     private void SetDeltaTexts()
