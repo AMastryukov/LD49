@@ -316,7 +316,8 @@ public class GameManager : MonoBehaviour
         {
             _tileTray.IsEnabled = false;
             GameActive = false;
-            
+
+            _audioManager.StopMusic();
             _audioManager.PlaySound(AudioManager.Sounds.GameOver);
 
             OnGameOver?.Invoke();

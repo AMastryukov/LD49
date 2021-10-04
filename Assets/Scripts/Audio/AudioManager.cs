@@ -34,6 +34,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip mainMenuMusic;
 
     private int currentGameMusicIndex = 0;
+    private bool shouldPlayMusic = true;
 
     private void Start()
     {
@@ -44,7 +45,7 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        if (!musicSource.isPlaying)
+        if (!musicSource.isPlaying && shouldPlayMusic)
         {
             // This is dumb but we only have two music clips so fuck off
             if (currentGameMusicIndex == 0)
@@ -91,7 +92,8 @@ public class AudioManager : MonoBehaviour
 
     private void PlayCurrentMusic()
     {
-        musicSource.Stop();
+        StopMusic();
+        shouldPlayMusic = true;
 
         if (SceneManager.GetActiveScene().name.Contains("Menu"))
         {
@@ -105,6 +107,12 @@ public class AudioManager : MonoBehaviour
         }
 
         musicSource.Play();
+    }
+
+    public void StopMusic()
+    {
+        musicSource.Stop();
+        shouldPlayMusic = false;
     }
 
     public void UpdateMusicVolume(float newVolume)
