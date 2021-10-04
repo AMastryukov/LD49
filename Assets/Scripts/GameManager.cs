@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
     public Pillars PillarDeltas { get; set; }
+    public int TurnUntilDecay { get; set; } = 2;
 
     private bool _isEnabled = false;
     public bool GameActive
@@ -123,10 +125,36 @@ public class GameManager : MonoBehaviour
         UpdatePillarValues();
         CheckLoseConditions();
         CheckWinConditions();
+        DecayTiles();
 
         CurrentTurn++;
+        TurnUntilDecay--;
 
         OnTurnComplete?.Invoke();
+    }
+
+    private void DecayTiles()
+    {
+        if (TurnUntilDecay == 0)
+        {
+            var tiles = _gridManager.GetTiles().Where(t => t.Type != ETileType.None);
+            var randomTile = tiles.ElementAt(UnityEngine.Random.Range(0, tiles.Count()));
+
+            if (randomTile != null && randomTile != _gridManager.LastTilePlaced) 
+            {
+                // Replace tile with empty land
+                var newTilePrefab = tilePrefabs.Where(t => t.Type == ETileType.None).FirstOrDefault();
+                var newTile = Instantiate(newTilePrefab);
+
+                newTile.Pillars.Military = 0;
+                newTile.Pillars.Economy = 0;
+                newTile.Pillars.Culture = 0;
+
+                _gridManager.ReplaceTile(randomTile, newTile);
+            }
+
+            TurnUntilDecay = 3;
+        }
     }
 
     private void UpdatePillarDeltaValues()
@@ -139,9 +167,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Sum the currently held tile as well
-        if (_tileTray.GrabbedTile != null && 
-            !string.IsNullOrEmpty(_tileTray.GrabbedTile.Name) &&
-            _gridManager.IsTileHoveringAboveValidHex)
+        if (_tileTray.GrabbedTile != null && _tileTray.GrabbedTile.Type != ETileType.None && _gridManager.IsTileHoveringAboveValidHex)
         {
             PillarDeltas += _tileTray.GrabbedTile.Pillars;
         }

@@ -95,14 +95,14 @@ public class TileTray : MonoBehaviour
         {
             Tile hitTile = rayHit.transform.gameObject.GetComponent<Tile>();
 
-            if (hitTile == null || hitTile.tileState != ETileState.Neutral)
+            if (hitTile == null || hitTile.TileState != ETileState.Neutral)
             {
                 return false;
             }
 
             grabbedTile = hitTile;
 
-            hitTile.tileState = ETileState.Grabbed;
+            hitTile.TileState = ETileState.Grabbed;
         }
 
         grabbedTile?.transform.DOKill();
@@ -125,7 +125,7 @@ public class TileTray : MonoBehaviour
             }
              
             tileTrayTiles.Remove(grabbedTile);
-            grabbedTile.tileState = ETileState.Placed;
+            grabbedTile.TileState = ETileState.Placed;
 
             OnTilePlaced?.Invoke();
             
@@ -138,11 +138,11 @@ public class TileTray : MonoBehaviour
 
     public bool TryReleaseTile()
     {
-        if (grabbedTile != null && grabbedTile.tileState == ETileState.Grabbed)
+        if (grabbedTile != null && grabbedTile.TileState == ETileState.Grabbed)
         {
             grabbedTile.transform.DOScale(Vector3.one * 0.75f, 0.25f).SetEase(Ease.OutQuad);
 
-            grabbedTile.tileState = ETileState.Neutral;
+            grabbedTile.TileState = ETileState.Neutral;
             grabbedTile = null;
 
             UpdateTilePositions(0.5f);

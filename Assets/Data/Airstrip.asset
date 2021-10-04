@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Airstrip
   m_EditorClassIdentifier: 
   Name: Airstrip
-  Military: 2
-  Economy: -2
+  TileType: 0
+  Level: 3
+  Military: 3
+  Economy: -3
   Culture: 0

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Theatre
   TileType: 2
-  Military: -3
+  Level: 2
+  Military: -2
   Economy: 0
-  Culture: 3
+  Culture: 2
