@@ -78,8 +78,6 @@ public class DialogueManager : MonoBehaviour
     // Animates the display of sentence as if it was being typed
     IEnumerator TypeSentence(string sentence)
     {
-        // TODO: Play typewriter audio
-
         advisorDialogue.text = "";
         int maxCounts = 3;
         int counts = 0;

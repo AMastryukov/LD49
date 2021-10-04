@@ -6,11 +6,24 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public enum GameState { InProgress, Defeat, Victory }
+    public enum GameOverState
+    {
+        None,
+        Victory,
+        LowMilitary,
+        LowEconomy,
+        LowCulture,
+        ExcessMilitary,
+        ExcessEconomy,
+        ExcessCulture
+    }
 
     public static Action OnGameSetup;
     public static Action OnTurnComplete;
+    public static Action OnGameOver;
 
     public GameState CurrentGameState = GameState.InProgress;
+    public GameOverState CurrentGameOverState = GameOverState.None;
     public int CurrentTurn { get; set; } = 1;
     public Pillars Pillars { get; set; }
 
@@ -135,6 +148,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your military was too weak and you were overthrown by the people.");
 
+            CurrentGameOverState = GameOverState.LowMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -142,6 +156,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your military was too strong and you were overthrown in a military coup.");
 
+            CurrentGameOverState = GameOverState.ExcessMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -149,6 +164,7 @@ public class GameManager : MonoBehaviour
         {  
             Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
 
+            CurrentGameOverState = GameOverState.LowEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -156,6 +172,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
 
+            CurrentGameOverState = GameOverState.ExcessEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -163,6 +180,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your influence over your population dwindled and your state slowly dissolved.");
 
+            CurrentGameOverState = GameOverState.LowCulture;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -170,6 +188,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Your grip on the population became too tight and rebel groups staged a coup. Long live the resistance!");
 
+            CurrentGameOverState = GameOverState.ExcessCulture;
             CurrentGameState = GameState.Defeat;
         }
 
@@ -179,8 +198,7 @@ public class GameManager : MonoBehaviour
             GameActive = false;
 
             _masterAudio.gameOverSound();
-
-            // TODO: Show defeat screen
+            OnGameOver?.Invoke();
         }
     }
 
@@ -191,7 +209,7 @@ public class GameManager : MonoBehaviour
             CurrentGameState = GameState.Victory;
             GameActive = false;
 
-            // TODO: Show victory screen
+            OnGameOver?.Invoke();
         }
     }
 }
