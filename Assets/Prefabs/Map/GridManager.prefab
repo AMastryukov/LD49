@@ -141,6 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38681eff22293f04ca9317573aeb2307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsTileHoveringAboveValidHex: 0
+  LastTilePlaced: {fileID: 0}
   mainCamera: {fileID: 0}
   gridSpacing: 1.8
   snapRange: 1
@@ -158,6 +160,8 @@ MonoBehaviour:
   emptyTilePrefab: {fileID: 7422396117808681851, guid: be367e882456fe54bb6e6bd44b75e811, type: 3}
   previewTilePrefab: {fileID: 4139862880183768336, guid: a32597df3c8c65d49909fe7f156df45f, type: 3}
   restrictedTilePrefab: {fileID: 3387802283833206837, guid: 1697049ac039084448300c6489b91c72, type: 3}
+  dustParticle: {fileID: 3542924583090437220, guid: edf388540c9b0b34a818007361b37341, type: 3}
+  destructionParticle: {fileID: 3542924583090437220, guid: a28364605b8868d42ab9ad8899713a4e, type: 3}
 --- !u!65 &6752609992955977822
 BoxCollider:
   m_ObjectHideFlags: 0

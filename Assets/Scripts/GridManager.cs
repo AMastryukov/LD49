@@ -47,6 +47,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject emptyTilePrefab;
     [SerializeField] private GameObject previewTilePrefab;
     [SerializeField] private GameObject restrictedTilePrefab;
+    [SerializeField] private GameObject dustParticle;
+    [SerializeField] private GameObject destructionParticle;
 
     private GameObject previewTile;
     private List<GameObject> restrictedTiles;
@@ -178,7 +180,23 @@ public class GridManager : MonoBehaviour
     public void RemoveTile(Tile tile)
     {
         gridOccupancy.Remove(GetHexCoordinates(tile));
-        Destroy(tile.gameObject);
+        
+        
+        tile.transform.DOShakePosition(5, 0.03f * new Vector3(1, 0, 1), 100);
+        tile.transform.DOMoveY(-1, 5).OnComplete(() =>
+        {
+            
+
+            Destroy(tile.gameObject);
+            
+        });
+
+        Destroy(Instantiate(destructionParticle, tile.transform.position, Quaternion.Euler(-90, 0, 0)), 5f);
+        _audioManager.PlaySound(AudioManager.Sounds.TileDestory);
+
+
+
+
     }
 
     /// <summary>
@@ -217,11 +235,13 @@ public class GridManager : MonoBehaviour
                 {
                     tileObject.transform.DOMove(HexToPoint(hex), 0.35f).SetEase(Ease.InCirc)
                     .OnComplete(()=>
-                    {
+                    {   
+                        Destroy(Instantiate(dustParticle, HexToPoint(hex), Quaternion.Euler(-90, 0, 0)), 5f);
                         if (!silent)
                         {
                             _audioManager.PlaySound(AudioManager.Sounds.TilePlace);
                         }
+
                     });
                 });
 
