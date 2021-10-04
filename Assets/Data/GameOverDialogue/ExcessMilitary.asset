@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: ExcessMilitary
   m_EditorClassIdentifier: 
   sentences:
-  - Your military was too strong and you were overthrown in a military coup.
+  - 'Your military advisor and the army General overwhelmed your loyalists and overthrew
+    you in a military coup. You were summarily executed.
+
+
+    (Your Military was
+    too high)'
   advisor: 0

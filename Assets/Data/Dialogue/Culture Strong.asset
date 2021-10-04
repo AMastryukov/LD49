@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Culture Strong
   m_EditorClassIdentifier: 
   sentences:
-  - Great leader, Fyodor Dostoevsky just finished his seminal novel Crime and Punishment,
-    surging our culture into the global arena.
+  - 'Great Leader, we have seen a recent surge of forbidden artworks and literature.
+    We should consider suppressing Culture to combat this.
+
+
+    (Your Culture is
+    becoming too strong)'
   advisor: 2

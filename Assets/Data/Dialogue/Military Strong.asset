@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Military Strong
   m_EditorClassIdentifier: 
   sentences:
-  - Neighbouring nations fear the might of our masive military. Join me in a Tupolev
-    Tu-22M Aircraft as we test our nuclear power on the Moon.
+  - 'Neighbouring nations fear the might of our masive military, and you should,
+    too.
+
+
+    (Your Military is becoming too strong)'
   advisor: 0

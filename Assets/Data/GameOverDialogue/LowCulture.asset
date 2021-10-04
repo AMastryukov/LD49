@@ -13,5 +13,10 @@ MonoBehaviour:
   m_Name: LowCulture
   m_EditorClassIdentifier: 
   sentences:
-  - Your influence over your population dwindled and your state slowly dissolved.
+  - 'Your influence over your population dwindled and your state slowly dissolved.
+    Multiple warlords sprung up around the country and began their own war for power.
+
+
+    (Your
+    Culture was too low)'
   advisor: 2

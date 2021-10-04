@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: LowMilitary
   m_EditorClassIdentifier: 
   sentences:
-  - Your military was too weak and you were overthrown by the people. Try 25 pushups
-    next time you try to lead an army.
+  - 'Your military was too weak and you were invaded by the neighboring nations.
+    Try 25 pushups next time you try to lead an army.
+
+
+    (Your Military was too
+    low)'
   advisor: 0

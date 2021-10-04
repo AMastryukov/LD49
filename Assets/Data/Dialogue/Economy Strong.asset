@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Economy Strong
   m_EditorClassIdentifier: 
   sentences:
-  - Your friends' pockets are overflowing with coins and banks everywhere are flourishing.
-    Our economy is on the rise!
+  - 'Our nation''s production has been exceeding quotas. With an overabundance of
+    supply, some of our population is turning to Capitalism!
+
+
+    (Your Economy
+    is becoming too strong)'
   advisor: 1

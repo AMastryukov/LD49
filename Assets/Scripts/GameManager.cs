@@ -60,27 +60,26 @@ public class GameManager : MonoBehaviour
     private AudioManager _audioManager;
     private DialogueManager _dialogueManager;
 
-    [SerializeField]
-    private DialogueData EconomyStrong;
+    [SerializeField] private DialogueData EconomyStrong;
     private bool economyStrongPlayed = false;
-    [SerializeField]
-    private DialogueData EconomyWeak;
+
+    [SerializeField] private DialogueData EconomyWeak;
     private bool economyWeakPlayed = false;
-    [SerializeField]
-    private DialogueData MilitaryStrong;
+
+    [SerializeField] private DialogueData MilitaryStrong;
     private bool militaryStrongPlayed = false;
-    [SerializeField]
-    private DialogueData MilitaryWeak;
+
+    [SerializeField] private DialogueData MilitaryWeak;
     private bool militaryWeakPlayed = false;
-    [SerializeField]
-    private DialogueData CultureStrong;
+
+    [SerializeField] private DialogueData CultureStrong;
     private bool cultureStrongPlayed = false;
-    [SerializeField]
-    private DialogueData CultureWeak;
+
+    [SerializeField] private DialogueData CultureWeak;
     private bool cultureWeakPlayed = false;
 
     [SerializeField]
-    public float criticalThreshold { get; private set; } = 0.3f;
+    public float criticalThreshold { get; private set; } = 0.25f;
 
     private void Awake()
     {
@@ -179,16 +178,17 @@ public class GameManager : MonoBehaviour
 
     private void CheckAdvisors()
     {
-        if(Pillars.Military < maximumPillar * criticalThreshold && !militaryWeakPlayed)
+        if (Pillars.Military < maximumPillar * criticalThreshold && !militaryWeakPlayed)
         {
             _dialogueManager.LoadDialogue(MilitaryWeak);
             militaryWeakPlayed = true;
         }
-        else if(Pillars.Military > maximumPillar * (1 - criticalThreshold) && !militaryStrongPlayed)
+        else if (Pillars.Military > maximumPillar * (1 - criticalThreshold) && !militaryStrongPlayed)
         {
             _dialogueManager.LoadDialogue(MilitaryStrong);
             militaryStrongPlayed = true;
-        }else if(Pillars.Culture < maximumPillar * criticalThreshold && !cultureWeakPlayed)
+        }
+        else if (Pillars.Culture < maximumPillar * criticalThreshold && !cultureWeakPlayed)
         {
             _dialogueManager.LoadDialogue(CultureWeak);
             cultureWeakPlayed = true;
@@ -266,48 +266,36 @@ public class GameManager : MonoBehaviour
         
         if (Pillars.Military <= minimumPillar)
         {
-            Debug.Log("Your military was too weak and you were overthrown by the people.");
-
             CurrentGameOverState = GameOverState.LowMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Military >= maximumPillar)
         {
-            Debug.Log("Your military was too strong and you were overthrown in a military coup.");
-
             CurrentGameOverState = GameOverState.ExcessMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy <= minimumPillar)
         {  
-            Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
-
             CurrentGameOverState = GameOverState.LowEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy >= maximumPillar)
         {
-            Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
-
             CurrentGameOverState = GameOverState.ExcessEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture <= minimumPillar)
         {
-            Debug.Log("Your nation's lack of culture resulted in a loss of its identity. The nation split into numerous tribes that began to war with one another.");
-
             CurrentGameOverState = GameOverState.LowCulture;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture >= maximumPillar)
         {
-            Debug.Log("Your nation's culture . Long live the resistance!");
-
             CurrentGameOverState = GameOverState.ExcessCulture;
             CurrentGameState = GameState.Defeat;
         }
@@ -328,12 +316,15 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentTurn >= winTurn && CurrentGameState == GameState.InProgress)
         {
+            CurrentGameOverState = GameOverState.Victory;
             CurrentGameState = GameState.Victory;
+
             GameActive = false;
+
+            _audioManager.StopMusic();
+            _audioManager.PlaySound(AudioManager.Sounds.GameOver);
 
             OnGameOver?.Invoke();
         }
     }
-
-
 }

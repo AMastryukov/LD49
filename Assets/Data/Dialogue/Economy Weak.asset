@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Economy Weak
   m_EditorClassIdentifier: 
   sentences:
-  - Inflation has taken hold of our dear capital. I strongly urge investing in the
-    economy, lest we face a Great Depression.
+  - 'We are seeing a sharp decline in production. If we continue to lose production,
+    our population might starve and rebel.
+
+
+    (Your Economy is becoming too weak)'
   advisor: 1
