@@ -5,33 +5,36 @@ using UnityEngine.UI;
 
 public class VolumeSlider : MonoBehaviour
 {
+    [SerializeField] private bool isMusic = false;
+
     private Slider _slider;
-    private AudioManager _masterAudio;
-    // Start is called before the first frame update
+    private AudioManager _audioManager;
+
     private void Awake()
     {
         _slider = GetComponent<Slider>();
-        _masterAudio = FindObjectOfType<AudioManager>();
-    }
-    void Start()
-    {
-        
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        if (isMusic)
+        {
+            _slider.value = _audioManager.CurrentMusicVolume;
+            return;
+        }
+
+        _slider.value = _audioManager.CurrentEffectsVolume;
     }
 
-    public void ChangeVolumeSFX()
+    public void UpdateVolume(float vol)
     {
-        //Add Functionality Here
-        Debug.Log("Volume Changed SFX");
-    }
-    public void ChangeVolumeMusic()
-    {
-        //Add Functionality Here
-        Debug.Log("Volume Changed Music");
+        if (isMusic)
+        {
+            _audioManager.UpdateMusicVolume(vol);
+            return;
+        }
+
+        _audioManager.UpdateEffectsVolume(vol);
     }
 }

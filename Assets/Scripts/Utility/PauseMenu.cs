@@ -5,11 +5,10 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private Canvas pauseMenuCanvas;
-    [SerializeField] private GameObject settingsMenu;
-    [SerializeField] private GameObject mainPauseMenu;
+    [SerializeField] private Canvas settingsMenu;
+    [SerializeField] private Canvas mainPauseMenu;
 
     private bool _isPaused = false;
-
 
     private void Update()
     {
@@ -21,18 +20,12 @@ public class PauseMenu : MonoBehaviour
 
     public void TogglePauseMenu()
     {
-        if(settingsMenu.activeSelf)
-        {
-            settingsMenu.SetActive(false);
-            mainPauseMenu.SetActive(true);
-        }
-        else
-        {
-            pauseMenuCanvas.enabled = !_isPaused;
-            Time.timeScale = _isPaused ? 1f : 0f;
+        Time.timeScale = _isPaused ? 1f : 0f;
+        _isPaused = !_isPaused;
 
-            _isPaused = !_isPaused;
-        }
-     
+
+        pauseMenuCanvas.enabled = _isPaused;
+        mainPauseMenu.enabled = _isPaused;
+        settingsMenu.enabled = false;
     }
 }
