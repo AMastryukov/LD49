@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
         ButtonHover,
         ButtonClick,
         TilePlace,
+        TileDestory,
         Typewriter,
         GameOver
     }
@@ -22,6 +23,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip buttonClick;
     [SerializeField] private AudioClip tileGrab;
     [SerializeField] private AudioClip tilePlace;
+    [SerializeField] private AudioClip tileDestroy;
     [SerializeField] private AudioClip typewriter;
     [SerializeField] private AudioClip gameOver;
 
@@ -69,6 +71,10 @@ public class AudioManager : MonoBehaviour
 
             case Sounds.TilePlace:
                 effectsSource.PlayOneShot(tilePlace);
+                break;
+
+            case Sounds.TileDestory:
+                effectsSource.PlayOneShot(tileDestroy);
                 break;
 
             case Sounds.Typewriter:
