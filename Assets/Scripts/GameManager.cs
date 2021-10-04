@@ -266,48 +266,36 @@ public class GameManager : MonoBehaviour
         
         if (Pillars.Military <= minimumPillar)
         {
-            Debug.Log("Your military was too weak and you were overthrown by the people.");
-
             CurrentGameOverState = GameOverState.LowMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Military >= maximumPillar)
         {
-            Debug.Log("Your military was too strong and you were overthrown in a military coup.");
-
             CurrentGameOverState = GameOverState.ExcessMilitary;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy <= minimumPillar)
         {  
-            Debug.Log("Your failed to maintain a minimum economic supply and your population starved.");
-
             CurrentGameOverState = GameOverState.LowEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Economy >= maximumPillar)
         {
-            Debug.Log("Your planned economy collapsed due to an overabundance of supply.");
-
             CurrentGameOverState = GameOverState.ExcessEconomy;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture <= minimumPillar)
         {
-            Debug.Log("Your nation's lack of culture resulted in a loss of its identity. The nation split into numerous tribes that began to war with one another.");
-
             CurrentGameOverState = GameOverState.LowCulture;
             CurrentGameState = GameState.Defeat;
         }
 
         if (Pillars.Culture >= maximumPillar)
         {
-            Debug.Log("Your nation's culture . Long live the resistance!");
-
             CurrentGameOverState = GameOverState.ExcessCulture;
             CurrentGameState = GameState.Defeat;
         }
