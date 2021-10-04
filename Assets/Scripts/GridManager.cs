@@ -464,13 +464,12 @@ public class GridManager : MonoBehaviour
             {
                 if (previewTile == null)
                 {
-                    IsTileHoveringAboveValidHex = IsValidPlacement(hex, _tileTray.GrabbedTile);
-
                     previewTile = Instantiate(previewTilePrefab, rayHit.point, Quaternion.identity, transform);
-                    previewTile.transform.position = newPos;
-
-                    OnTileEnterHex?.Invoke();
                 }
+
+                IsTileHoveringAboveValidHex = IsValidPlacement(hex, _tileTray.GrabbedTile);
+                previewTile.transform.position = newPos;
+                OnTileEnterHex?.Invoke();
             }
             else
             {
