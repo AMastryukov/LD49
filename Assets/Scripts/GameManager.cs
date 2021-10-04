@@ -47,7 +47,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private int winTurn = 24;
     [SerializeField] private int maximumPillar = 100;
+    public int MaximumPillar => maximumPillar;
+
     [SerializeField] private int minimumPillar = 0;
+    public int MinimumPillar => minimumPillar;
+
     [SerializeField] private List<Tile> tilePrefabs;
 
     private GridManager _gridManager;

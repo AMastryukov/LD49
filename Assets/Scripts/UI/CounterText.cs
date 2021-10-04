@@ -14,10 +14,14 @@ public class CounterText : MonoBehaviour
 
     private int currentValue = 0;
     private Tween currentTween;
+    private PillarDisplay _pillarDisplay;
+    private GameManager gameManager;
 
     private void Awake()
     {
         Counter = GetComponent<TextMeshProUGUI>();
+        _pillarDisplay = FindObjectOfType<PillarDisplay>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     public void SetCounter(int value, string prefix = "")
@@ -38,6 +42,11 @@ public class CounterText : MonoBehaviour
             .OnUpdate(() =>
             {
                 Counter.text = prefix + currentValue.ToString();
+                if(int.Parse(Counter.text)<=((int)(gameManager.MaximumPillar*0.1))|| int.Parse(Counter.text) >= ((int)(gameManager.MaximumPillar * 0.9)))
+                {
+                    Counter.color = _pillarDisplay.GetColorByName("Negative");
+
+                }
             });
     }
 }
