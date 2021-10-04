@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentGameState: 0
+  CurrentGameOverState: 7
   winTurn: 25
   maximumPillar: 100
   minimumPillar: 0
@@ -58,3 +59,9 @@ MonoBehaviour:
   - {fileID: 413921036768524617, guid: 4b2d0aac5c5ba054eadc2feab8e04058, type: 3}
   - {fileID: 5158895845328284591, guid: 9754db58892e58f478a7691920ff9751, type: 3}
   - {fileID: 1239163359743677340, guid: 41dd778f9f023744a9133d99cd0cb70f, type: 3}
+  EconomyStrong: {fileID: 11400000, guid: 2efe598dffe5bf142821065015c73e4f, type: 2}
+  EconomyWeak: {fileID: 11400000, guid: ee49029360891b74faaf7421b49fe8c2, type: 2}
+  MilitaryStrong: {fileID: 11400000, guid: 5081c32d71b86be4398aa7e762385f86, type: 2}
+  MilitaryWeak: {fileID: 11400000, guid: 734007682a8cbd14f8255c37f74aa9e8, type: 2}
+  CultureStrong: {fileID: 11400000, guid: 52c8c7c3410743849b9ba37affa5bb36, type: 2}
+  CultureWeak: {fileID: 11400000, guid: 5ad17a887c628104eb6fdba2aa967014, type: 2}
