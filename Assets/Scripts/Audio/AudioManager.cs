@@ -15,6 +15,9 @@ public class AudioManager : MonoBehaviour
         GameOver
     }
 
+    private static float _musicVolume=1;
+    private static float _sfxVolume=1;
+
     public float CurrentMusicVolume => musicSource.volume;
     public float CurrentEffectsVolume => effectsSource.volume;
 
@@ -40,6 +43,8 @@ public class AudioManager : MonoBehaviour
     {
         // Get random game music
         currentGameMusicIndex = Random.Range(0, gameMusic.Length);
+        UpdateEffectsVolume(_sfxVolume);
+        UpdateMusicVolume(_musicVolume);
         PlayCurrentMusic();
     }
 
@@ -117,11 +122,13 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateMusicVolume(float newVolume)
     {
-        musicSource.volume = newVolume;
+        _musicVolume = newVolume;
+        musicSource.volume = _musicVolume;
     }
 
     public void UpdateEffectsVolume(float newVolume)
     {
-        effectsSource.volume = newVolume;
+        _sfxVolume = newVolume;
+        effectsSource.volume = _sfxVolume;
     }
 }
