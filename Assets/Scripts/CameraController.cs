@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     private bool _allowClickCameraMovement = false;
     private Vector3 _initialPos;
     private float _clickCameraSpeed;
+    private int _mouseButton = 1;
 
     private void Start()
     {
@@ -56,7 +57,7 @@ public class CameraController : MonoBehaviour
     {
         if (_allowClickCameraMovement)
         {
-            if (Input.GetMouseButton(2))
+            if (Input.GetMouseButton(_mouseButton))
             {
                 Vector3 movementVector = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 8.16f)) - _initialPos;
                 Vector3 pos = transform.position;
@@ -65,12 +66,12 @@ public class CameraController : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, pos, _clickCameraSpeed);
             }
         }
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetMouseButtonDown(_mouseButton))
         {
             _initialPos = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 8.16f));
             _allowClickCameraMovement = true;
         }
-        if (Input.GetMouseButtonUp(2))
+        if (Input.GetMouseButtonUp(_mouseButton))
         {
             _allowClickCameraMovement = false;
         }
