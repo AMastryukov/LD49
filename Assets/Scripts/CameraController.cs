@@ -18,6 +18,8 @@ public class CameraController : MonoBehaviour
     private float _clickCameraSpeed;
     private int _mouseButton = 1;
 
+    public Joystick joystick;
+
     private void Start()
     {
         _clickCameraSpeed = cameraSpeed / 5;
@@ -51,6 +53,7 @@ public class CameraController : MonoBehaviour
             transform.Translate(Vector3.back * Time.deltaTime * cameraSpeed, Space.World);
         if (mainCamera.pixelHeight - pixelMargin < mousePos.y * mainCamera.pixelHeight) 
             transform.Translate(Vector3.forward * Time.deltaTime * cameraSpeed, Space.World);
+
     }
 
     void CameraClickMovement()
@@ -82,22 +85,22 @@ public class CameraController : MonoBehaviour
         Vector3 move = new Vector3(0, 0, 0);
         Vector3 pos = transform.position;
 
-        if (Input.GetKey("w"))
+        if (joystick.Vertical>0)
         {
             move.z+= cameraSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey("s"))
+        if (joystick.Vertical < 0)
         {
             move.z -= cameraSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey("d"))
+        if (joystick.Horizontal > 0)
         {
             move.x += cameraSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey("a"))
+        if (joystick.Horizontal < 0)
         {
             move.x -= cameraSpeed * Time.deltaTime;
         }
