@@ -243,7 +243,10 @@ public class GameManager : MonoBehaviour
 
         foreach (Tile tile in _gridManager.GetTiles())
         {
-            PillarDeltas += tile.Pillars;
+            if (tile.Type != ETileType.Rubble)
+            {
+                PillarDeltas += tile.Pillars;
+            }
         }
 
         // Sum the currently held tile as well

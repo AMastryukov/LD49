@@ -468,8 +468,13 @@ public class GridManager : MonoBehaviour
                 }
 
                 IsTileHoveringAboveValidHex = IsValidPlacement(hex, _tileTray.GrabbedTile);
+
+                if (previewTile.transform.position != newPos)
+                {
+                    OnTileEnterHex?.Invoke();
+                }
+
                 previewTile.transform.position = newPos;
-                OnTileEnterHex?.Invoke();
             }
             else
             {
