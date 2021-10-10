@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
     {
         if (_allowClickCameraMovement)
         {
-            if (Input.GetMouseButton(2))
+            if (Input.GetMouseButton(1))
             {
                 Vector3 movementVector = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 8.16f)) - _initialPos;
                 Vector3 pos = transform.position;
@@ -65,12 +65,12 @@ public class CameraController : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, pos, _clickCameraSpeed);
             }
         }
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetMouseButtonDown(1))
         {
             _initialPos = mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 8.16f));
             _allowClickCameraMovement = true;
         }
-        if (Input.GetMouseButtonUp(2))
+        if (Input.GetMouseButtonUp(1))
         {
             _allowClickCameraMovement = false;
         }
